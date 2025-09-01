@@ -1,0 +1,13 @@
+^gescodgeo\.Rproj$
+^\.Rproj\.user$
+^dev$
+^LICENSE\.md$
+^data-raw$
+^test$
+^README\.Rmd$
+^doc$
+^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^.gitlab-ci.yml$

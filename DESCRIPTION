@@ -1,0 +1,26 @@
+Package: gescodgeo
+Title: Gestion des codes géographiques
+Version: 2025.1
+Authors@R: 
+    person(family = "Thomas Morin, PSAR-AT - INSEE",
+           role = c("aut", "cre"),
+           email = "dr13-psar-at@insee.fr")
+Description: Le package ‘gescodgeo’ regroupe des fonctions utiles pour la gestion des codes géographiques, développées sur AUS pour des travaux du PSAR - Analyses Territoriales.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
+Imports: 
+    dplyr,
+    rlang,
+    tidyselect
+VignetteBuilder: knitr
+URL: https://psar-at.gitlab-pages.insee.fr/gescodgeo/, https://gitlab.insee.fr/psar-at/gescodgeo/

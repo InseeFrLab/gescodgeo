@@ -1,0 +1,71 @@
+url: https://psar-at.gitlab-pages.insee.fr/gescodgeo/
+lang: fr
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [reference, articles, tutorials, news]
+    right: [search, github, lightswitch]
+
+
+
+home:
+  links:
+  - text: Code officiel géographique
+    href: https://www.insee.fr/fr/information/2560452
+ # - text: Package CogR
+ #   href: https://gitlab.insee.fr/kmb8un/cogr
+  - text: Package COGugaison
+    href: https://github.com/antuki/COGugaison
+  # - text: Package geoguessR
+  #   href: https://d0mwta.gitlab-pages.insee.fr/geoguessr/
+  # - text: Package zonages
+  #   href: https://psar-at.gitlab-pages.insee.fr/zonages/outils-zonages/
+
+  sidebar:
+    structure: [links]
+
+articles:
+  - title: Prise en main
+    navbar: ~
+    contents:
+    - prise-en-main
+    - modifications-des-communes
+  - title: Comment recalculer les variables numériques après un changement de géographie des communes ?
+    navbar: Recalculer les variables après un changement de géographie
+    contents:
+    - base-individuelle
+    - base-communale
+    - base-bilocalisee
+
+reference:
+- title: Principales fonctions
+  contents:
+  - '`change_cog`'
+  - '`check_cog`'
+  - '`cog_transition`'
+  - '`cog_events`'
+  - '`adapt_to_change`'
+  - '`data_com`'
+  - '`filter_mayotte`'
+  - '`com_to_arm`'
+  - '`arm_to_com`'
+  - '`com_to_dep`'
+  - '`reg_to_dep`'
+  - '`dep_to_reg`'
+
+- title: Données du package
+  contents:
+  - '`data_table_passage`'
+  - '`data_arm_com`'
+  - '`data_dep_reg`'
+  - '`cog_max`'
+  - '`cog_min`'
+  - '`cog_ref`'
+  - '`data_com_ref`'
+
+- title: Utiliser des tables de passage personalisées
+  contents:
+  - '`codes_to_many`'
+  - '`codes_to_one`'
