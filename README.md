@@ -21,41 +21,34 @@ Les années disponibles du code officiel géographique vont de 2008 à
 
 ## Installation
 
-Le package gescodgeo est mis à disposition sur le dépôt R local de
-nexus.insee.fr.
+Installer la dernière version stable depuis github :
 
 ``` r
-# Installation de gescodgeo et de ses dépendances depuis le dépôt r-local
+remotes::install_github("thomasmorin-insee/gescodgeo")
 ```
 
-Cette instruction permet également de mettre à jour le package, ce qui
-permet notamment d’obtenir le dernier millésime du code officiel
-géographique disponible (voir [changements](./news/index.html)).
 
-Vous pouvez aussi installer la version en cours de développement en
-utilisant les instructions ci-dessous dans RStudio :
-
-``` r
-# install.packages("remotes")
-remotes::install_git("https://gitlab.insee.fr/psar-at/gescodgeo",
-                     dependencies = TRUE)
-```
-
-## Un exemple simple
+## Exemples
 
 
 ``` r
 library(gescodgeo)
-# Un exemple de Data frame avec quelques communes :
-data <- data.frame(COM = c("14712", "53239", "53249", "53274", "13201"))
+```
 
-# Les communes sont dans le COG de l'annee 2019 :
+Un exemple de Data frame avec quelques communes :
+
+``` r
+data <- data.frame(COM = c("14712", "53239", "53249", "53274", "13201"))
+```
+
+Les communes sont dans le COG de l'annee 2019 :
+``` r
 data |> check_cog(cog = 2019) 
 #> [1] TRUE
 ```
 
+Mais pas dans celui de l'annee 2021 :
 ``` r
-# Mais pas dans celui de l'annee 2021 :
 data |> check_cog(cog = 2021) 
 #> Warning: 
 #> Les communes suivantes ne sont pas dans le COG de l'annee 2021 : 
@@ -63,8 +56,8 @@ data |> check_cog(cog = 2021)
 #> [1] FALSE
 ```
 
+Change l'année de la géographie
 ``` r
-# Change l'année de la géographie
 data |> change_cog(from = COM, to = "COM_2021", cog_from = 2019, cog_to = 2021)
 #>     COM COM_2021
 #> 1 14712    14666
@@ -75,8 +68,8 @@ data |> change_cog(from = COM, to = "COM_2021", cog_from = 2019, cog_to = 2021)
 #> 6 13201    13201
 ```
 
+Renvoie la table de passage entre 2019 et 2021 :
 ``` r
-# Renvoie la table de passage entre 2019 et 2021 :
 cog_transition(cog_from = 2019, cog_to = 2021) |> head()
 #> # A tibble: 6 x 7
 #>   COM_INI COM_FIN POP_INI POP_FIN NB_COM_INI NB_COM_FIN SPLIT_RATIO
@@ -89,8 +82,8 @@ cog_transition(cog_from = 2019, cog_to = 2021) |> head()
 #> 6 21213   21452       807    2789          2          1       1
 ```
 
+Évènements pour un code géographique donné :
 ``` r
-# Évènements pour un code géographique donné
 cog_events("14712")
 #>   COG_INI COG_FIN COM_INI COM_FIN NB_COM_INI NB_COM_FIN
 #> 1    2016    2017   14666   14712          2          1
@@ -99,8 +92,8 @@ cog_events("14712")
 #> 4    2019    2020   14712   14712          1          2
 ```
 
+Passe de la commune à l'arrondissmeent municipal à la commune :
 ``` r
-# Passe de la commune à l'arrondissmeent municipal...
 data |> arm_to_com()
 #>     COM
 #> 1 14712
@@ -108,15 +101,17 @@ data |> arm_to_com()
 #> 3 53249
 #> 4 53274
 #> 5 13055
+``` 
 
-# ... et réciproquement
+Passe de l'arrondissmeent municipal à la commune :
+``` r
 "13055" |> com_to_arm()
 #>  [1] "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208" "13209"
 #>  [10] "13210" "13211" "13212" "13213" "13214" "13215" "13216"
 ```
 
+Passe aux départements et aux régions :
 ``` r
-# Passe aux départements et aux régions
 data |> com_to_dep(from = COM, to = "DEP") |> dep_to_reg(from = DEP, to = "REG")
 #>     COM DEP REG
 #> 1 14712  14  28
