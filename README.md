@@ -18,22 +18,9 @@ suivantes :
 - Passer des arrondissements municipaux à la commune et réciproquement
   pour Paris, Lyon et Marseille.
 
-Le package est développé sur AUS par le PSAR - Analyses territoriales.
-Le pôle Offre de Données Locales et le pôle national référentiels
-géographiques fournissent la table de passage pour les mises à jour
-annuelles. Ce groupe de travail autour du COG est piloté par la division
-Méthodes et référentiels géographiques.
-
 Les années disponibles du code officiel géographique vont de 2008 à
 2025.
 
-<!-- Sur ces sujets, d’autres ressources plus complètes sont disponibles :  -->
-<!-- - API DonneesLocales et Métadonnées de l'Insee (https://api.insee.fr/catalogue/) -->
-<!-- - Package `CogR` (https://gitlab.insee.fr/kmb8un/cogr) -->
-<!-- - Package `COGugaison` (https://github.com/antuki/COGugaison) -->
-<!-- Le package s'appuie sur des données du site Insee.fr :  -->
-<!-- -  Tables d’appartenance et de passage (https://www.insee.fr/fr/information/2028028) -->
-<!-- -  Historique des populations légales (https://www.insee.fr/fr/statistiques/2522602) -->
 
 ## Installation
 
@@ -59,13 +46,12 @@ remotes::install_git("https://gitlab.insee.fr/psar-at/gescodgeo",
 
 ## Un exemple simple
 
-Pour un exemple plus détaillé sur la gestion du code géographique des
-communes, voir `vignette("prise-en-main")`.
 
 ``` r
 library(gescodgeo)
 # Un exemple de Data frame avec quelques communes :
 data <- data.frame(COM = c("14712", "53239", "53249", "53274", "13201"))
+
 # Les communes sont dans le COG de l'annee 2019 :
 data |> check_cog(cog = 2019) 
 #> [1] TRUE
@@ -104,4 +90,41 @@ cog_transition(cog_from = 2019, cog_to = 2021) |> head()
 #> 4 16351   16233       594    1026          2          1       1    
 #> 5 21183   21183       896    1046          2          1       1    
 #> 6 21213   21452       807    2789          2          1       1
+```
+
+``` r
+# Évènements pour un code géographique donné
+cog_events("14712")
+#>   COG_INI COG_FIN COM_INI COM_FIN NB_COM_INI NB_COM_FIN
+#> 1    2016    2017   14666   14712          2          1
+#> 2    2016    2017   14712   14712          2          1
+#> 3    2019    2020   14712   14666          1          2
+#> 4    2019    2020   14712   14712          1          2
+```
+
+``` r
+# Passe de la commune à l'arrondissmeent municipal...
+data |> arm_to_com()
+#>     COM
+#> 1 14712
+#> 2 53239
+#> 3 53249
+#> 4 53274
+#> 5 13055
+
+# ... et réciproquement
+"13055" |> com_to_arm()
+#>  [1] "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208" "13209"
+#>  [10] "13210" "13211" "13212" "13213" "13214" "13215" "13216"
+```
+
+``` r
+# Passe aux départements et aux régions
+data |> com_to_dep(from = COM, to = "DEP") |> dep_to_reg(from = DEP, to = "REG")
+#>     COM DEP REG
+#> 1 14712  14  28
+#> 2 53239  53  52
+#> 3 53249  53  52
+#> 4 53274  53  52
+#> 5 13201  13  93
 ```
