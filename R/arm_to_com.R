@@ -1,20 +1,20 @@
 #' Convertit les arrondissements municipaux en communes
 #'
-#' Convertit les codes géographiques des arrondissements municipaux de Paris,
+#' Convertit les codes geographiques des arrondissements municipaux de Paris,
 #' Lyon et Marseille en codes de ces communes.
 #'
 #' @param data Un objet de type data frame ou vecteur.
 #' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des
 #' communes ou  arrondissements municipaux.
-#' Par défaut, première colonne. Sans objet si `data` est un vecteur.
+#' Par defaut, premiere colonne. Sans objet si `data` est un vecteur.
 #' @param to Colonne finale pour les communes.
-#' Par défaut, même nom que la colonne initiale. Sans objet si `data` est un vecteur.
-#' @param extra Autres codes géographiques : `NULL`, valeur unique, vecteur nommé ou fonction.
-#' Par défaut, les codes géographiques en dehors Paris, Lyon et Marseille ne sont pas changés.
+#' Par defaut, meme nom que la colonne initiale. Sans objet si `data` est un vecteur.
+#' @param extra Autres codes geographiques : `NULL`, valeur unique, vecteur nomme ou fonction.
+#' Par defaut, les codes geographiques en dehors Paris, Lyon et Marseille ne sont pas changes.
 #'
-#' @return Un objet du même type que `data`.
-#'  * Pour une data frame, une data frame avec le même nombre de lignes.
-#'  * Pour un vecteur, un vecteur de dimension égale.
+#' @return Un objet du meme type que `data`.
+#'  * Pour une data frame, une data frame avec le meme nombre de lignes.
+#'  * Pour un vecteur, un vecteur de dimension egale.
 #'
 #' @examples
 #' x <-  c("01123","13201","13202","75101")
@@ -42,7 +42,7 @@ arm_to_com <- function(data, from = NULL, to = NULL, extra = function(x) {return
     if(is.null(to)) { to <-  from }
   }
 
-  # Méthode codes_to_many pour une data frame ou un vecteur
+  # Methode codes_to_many pour une data frame ou un vecteur
   data <- codes_to_one(
     data = data,
     from = from,

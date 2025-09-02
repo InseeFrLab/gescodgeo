@@ -1,18 +1,18 @@
-#' Convertit les communes en départements
+#' Convertit les communes en departements
 #'
-#' Convertit les codes géographiques des communes en codes géographiques des départements.
+#' Convertit les codes geographiques des communes en codes geographiques des departements.
 #'
 #' @param data Un objet de type data frame ou vecteur.
 #' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des communes.
-#' Par défaut, "COM". Sans objet si `data` est un vecteur.
-#' @param to Colonne finale pour les départements.
-#' Par défaut, "DEP". Sans objet si `data` est un vecteur.
-#' @param extra Autres codes géographiques : `NULL`, valeur unique, vecteur nommé ou fonction.
-#' Par défaut, collectivités d'outre-mer et étranger.
+#' Par defaut, "COM". Sans objet si `data` est un vecteur.
+#' @param to Colonne finale pour les departements.
+#' Par defaut, "DEP". Sans objet si `data` est un vecteur.
+#' @param extra Autres codes geographiques : `NULL`, valeur unique, vecteur nomme ou fonction.
+#' Par defaut, collectivites d'outre-mer et etranger.
 #'
-#' @return Un objet du même type que `data`.
-#'  * Pour une data frame, une data frame avec le même nombre de lignes.
-#'  * Pour un vecteur, un vecteur de dimension égale.
+#' @return Un objet du meme type que `data`.
+#'  * Pour une data frame, une data frame avec le meme nombre de lignes.
+#'  * Pour un vecteur, un vecteur de dimension egale.
 #'
 #' @examples
 #' x <-  c("84001", "75001", "75001", "97401", "98601", "YYYYY", "99999", "A1001", NA)
@@ -58,7 +58,7 @@ com_to_dep <- function (data,
 
     return(data)
   }
-  # Par défaut
+  # Par defaut
   x_com_to_dep(data, extra)
 }
 
@@ -69,7 +69,7 @@ x_com_to_dep <- function (x,
                                           "YY" = "YYY", "ZZ" = "ZZZ", "NA" = "999")
                           ) {
 
-  # Codes départements (à mettre ailleurs)
+  # Codes departements (a mettre ailleurs)
   codes_dep <- c("01","02","03","04","05","06","07","08","09","10":"19","2A","2B","21":"95","971":"976")
 
   # Code sur 2 ou 3 position
@@ -84,7 +84,7 @@ x_com_to_dep <- function (x,
   if(is.function(extra)) {
     z[is.na(z)] <- extra(y[is.na(z)])
 
-    # extra est un vecteur nommé
+    # extra est un vecteur nomme
   } else if(!is.null(names(extra))) {
     z[is.na(z)] <- extra[y[is.na(z)]]
 
@@ -92,7 +92,7 @@ x_com_to_dep <- function (x,
       z[is.na(z)] <- extra["NA"]
     }
 
-    # Valeur par défaut pour les manquants
+    # Valeur par defaut pour les manquants
   } else if(!is.null(extra)) {
     z[is.na(z)] <- extra
   }

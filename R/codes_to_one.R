@@ -86,7 +86,7 @@ codes_to_one.default <- function(data,
     y[is.na(y)] <- extra(x[is.na(y)])
   }
 
-  # extra est un vectgeur nommé
+  # extra est un vectgeur nomme
   else if(!is.null(names(extra))) {
     y[is.na(y)] <- extra[x[is.na(y)]]
 
@@ -95,12 +95,12 @@ codes_to_one.default <- function(data,
     }
   }
 
-  # Valeur par défaut pour les manquants
+  # Valeur par defaut pour les manquants
   else if(!is.null(extra)) {
     y[is.na(y)] <- extra
   }
 
-  # Rétablit les noms de x
+  # Retablit les noms de x
   names(y) <- names(x)
 
   return(y)

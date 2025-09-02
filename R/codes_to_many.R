@@ -57,7 +57,7 @@ codes_to_many.data.frame <- function(data,
     codes_ini <-  c(codes_ini, names(extra))
     codes_fin <- c(codes_fin, unname(extra))
 
-    # Si "NA" est renseigné on l'utilisera pour les valeurs manquantes
+    # Si "NA" est renseigne on l'utilisera pour les valeurs manquantes
     if("NA" %in% names(extra)) {
       extra <- unname(extra["NA"])
     }
@@ -122,7 +122,7 @@ codes_to_many.default <- function(data,
     else if(is.function(extra)) {
       j <- extra(i)
     }
-    # extra est un vecteur nommé
+    # extra est un vecteur nomme
     else if(!is.null(names(extra))) {
       if(i %in% names(extra)) {
         j <- extra[names(extra) == i]
@@ -135,7 +135,7 @@ codes_to_many.default <- function(data,
         j <- NA
       }
     }
-    # Valeur par défaut pour les valeurs manquantes
+    # Valeur par defaut pour les valeurs manquantes
     else if(!is.null(extra)) {
       j <- extra
     }

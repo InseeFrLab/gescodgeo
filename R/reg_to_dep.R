@@ -1,18 +1,18 @@
-#' Convertit les régions en départements
+#' Convertit les regions en departements
 #'
-#' Convertit les codes géographiques des régions en codes géographiques des départements.
+#' Convertit les codes geographiques des regions en codes geographiques des departements.
 #'
 #' @param data Un objet de type data frame ou vecteur.
-#' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des régions.
-#' Par défaut, "REG". Sans objet si `data` est un vecteur.
-#' @param to Colonne finale pour les départements.
-#' Par défaut, "DEP". Sans objet si `data` est un vecteur.
-#' @param extra Autres codes géographiques : `NULL`, valeur unique, vecteur nommé ou fonction.
-#' Par défaut, collectivités d'outre-mer et étranger.
+#' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des regions.
+#' Par defaut, "REG". Sans objet si `data` est un vecteur.
+#' @param to Colonne finale pour les departements.
+#' Par defaut, "DEP". Sans objet si `data` est un vecteur.
+#' @param extra Autres codes geographiques : `NULL`, valeur unique, vecteur nomme ou fonction.
+#' Par defaut, collectivites d'outre-mer et etranger.
 #'
-#' @return Un objet du même type que `data`.
-#'  * Pour une data frame, une data frame avec un nombre de lignes égal ou supérieur.
-#'  * Pour un vecteur, un vecteur de dimension égale ou supérieure.
+#' @return Un objet du meme type que `data`.
+#'  * Pour une data frame, une data frame avec un nombre de lignes egal ou superieur.
+#'  * Pour un vecteur, un vecteur de dimension egale ou superieure.
 #'
 #' @examples
 #' x <- c("94", "93", "ZZ", NA)
@@ -39,7 +39,7 @@ reg_to_dep <- function (data, from = "REG", to = "DEP", extra = c("99" = "999", 
       tidy_as_cols()
   }
 
-  # Méthode codes_to_many pour une data frame ou un vecteur
+  # Methode codes_to_many pour une data frame ou un vecteur
   data <- codes_to_many(
     data = data,
     from = from,

@@ -1,9 +1,9 @@
-#' Base des codes des communes selon l'année du code officiel géographique
+#' Base des codes des communes selon l'annee du code officiel geographique
 #'
-#' Renvoie une data frame avec les codes géographiques des communes françaises
-#' selon l'année demandée du code officiel géographique (COG).
+#' Renvoie une data frame avec les codes geographiques des communes françaises
+#' selon l'annee demandee du code officiel geographique (COG).
 #'
-#' @param cog Une année du code officiel géographique des communes (COG).
+#' @param cog Une annee du code officiel geographique des communes (COG).
 #'
 #' @return Une data frame.
 #'
@@ -16,10 +16,10 @@
 #' @importFrom dplyr %>% distinct
 data_com <- function(cog) {
 
-  # Base communale de référence
+  # Base communale de reference
   data <- gescodgeo::data_com_ref
 
-  # Changement de géographie
+  # Changement de geographie
   if(cog != gescodgeo::cog_ref) {
     data <- data %>% change_cog(cog_from = gescodgeo::cog_ref, cog_to = cog)
   }

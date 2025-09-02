@@ -1,7 +1,4 @@
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# <img src="man/figures/logo.png" class="logo" alt=""/> gescodgeo
+# gescodgeo <img src="man/figures/logo.png" align="right" height="139" alt="gescodgeo icon" />
 
 Le package gescodgeo propose des fonctions pour la gestion des codes
 géographiques des communes. Ses principales utilisations sont les
