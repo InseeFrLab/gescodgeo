@@ -1,0 +1,250 @@
+---
+title: "Cas d'une base communale"
+subtitle: "Recalculer les variables après un changement de géographie (2/3)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cas d'une base communale}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(digits = 4)
+```
+
+Quand une base contient une seule ligne par commune, la fonction `adapt_to_change()` 
+permet de recalculer les moyennes et le effectifs pour tenir compte du changement de 
+géographie. Il est aussi possible de déterminer des catégories majoritaires pour les communes
+fusionnées en utilisant l'argument `cat_cols`. C'est notamment utile pour
+transposer un zonage dans une autre géographie.
+
+La fonction `adapt_to_change()` s'applique aussi à une base semi-agrégée, en 
+précisant les différentes variables identifiantes avec l'argument `id_cols`. 
+Toutefois, si la base est trop complexe, il est souvant plus facile de revenir 
+aux méthodes présentées pour une base individuelle, voir `vignette("base-individuelle")`.
+Enfin, pour une base bilocalisée avec plusieurs variables dont la 
+géographie change, mieux vaut utiliser la solution décrite ici : 
+`vignette("base-bilocalisee")`.
+
+## Utiliser uniquement les pondérations de la base initiale
+
+Dans cet exemple, les communes sont renseignées en géographie 2019 (variable COM19). 
+Je souhaite les passer en géographie 2020.
+
+```{r echo = FALSE}
+# Un exemple de Data frame avec quelques communes :
+data <- dplyr::tibble(
+  # Code des communes
+  COM19 = c("14001", "14712", "21183", "21507", "45287", "45307"),
+  
+  # Nombre d'actifs qui se déplacent
+  IPONDI = c(12062.88130, 2266.15705, 384.93408, 125, 101, 418.26613),
+  
+  # Distance moyenne
+  DIST = c(18.02278, 23.66685, 20.69776, 20.89907, 40.36829, 31.30092),
+
+  # Durée moyenne des trajets domicile-travail
+  DUREE = c(18.11675, 21.15484, 22.43131, 23.24867, 40.30286, 29.91029)
+
+)
+```
+```{r message = FALSE}
+# Librairies utilisées dans cet exemple
+library(dplyr)
+library(gescodgeo)
+
+# Déplacements domicile-travail dans quelques communes
+data
+```
+
+Je commence par changer la géographie, passant de 2019 à 2020. 
+
+```{r}
+# Change la géographie des communes
+new <- data %>%
+  change_cog(cog_from = 2019, cog_to = 2020, from = COM19, to = "COM20") 
+```
+
+Je souhaite maintenant adapter la pondération (variable IPONDI), les distances moyennes (DIST) et les durées moyennes (DUREE) pour tenir compte du nouveau découpage des communes. 
+
+Dans la fonction `adapt_to_change()`, je mentionne la géographie initiale, la géographie finale, ainsi que les variables que je souhaite recalculer.
+Je précise également que la variable IPONDI correspond au poids de mes observations dans la base initiale. Cette pondération est prise en compte pour recalculer les moyennes dans les fusions.
+
+```{r}
+# Adapte les variables aux changements de géographie
+new <- new %>% adapt_to_change(
+  
+    # Géographie initiale et géographie finale
+    from = COM19, 
+    to = COM20,
+    
+    # Moyennes et sommes à recalculer
+    mean_cols = c(DIST, DUREE), 
+    sum_cols = IPONDI,
+    
+    # Pondération dans la base initiale
+    weight_from = IPONDI
+)
+new
+```
+
+Je vérifie que mes agrégats sont bien respectés.
+
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+
+## Utiliser une pondération issue de la table de passage
+
+Avec la scission de la commune 14712, les effectifs ont 
+implicitement été répartis entre les deux communes filles 14712 et 14666, qui
+présentent un nombre de navetteurs identique. Pourtant, dans la table de 
+passage, on voit que la commune 14712 est dotée d'une population finale plus importante
+que la commune 14666. 
+
+```{r}
+cog_transition(2019, 2020)
+```
+
+On peut utiliser cette clé de répartition pour attribuer plus finement les 
+effectifs après la scission. D'abord, j'indique que je souhaite conserver les informations issues de la table de passage dans la fonction `change_cog()`. 
+Ensuite, j'utilise la population finale pour pondérer les observations après 
+transformation dans la fonction `adapt_to_change()`.
+
+```{r}
+# Change la géographie et ajoute les informations de la table de passage
+new <- data %>% change_cog(
+  cog_from = 2019, cog_to = 2020, 
+  from = COM19, to = "COM20",
+  infos = TRUE
+)
+new
+# Recalcule les variables avec une pondération initiale et une pondération finale
+new <- new %>% adapt_to_change(
+  from = COM19, to = COM20,
+  mean_cols = c(DIST, DUREE), sum_cols = IPONDI,
+  weight_from = IPONDI, weight_to = POP_FIN
+)
+new
+```
+
+Comme précédemment, je vérifie que mes agrégats sont bien respectés.
+      
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+
+## Cas d'une base semi-agrégée avec plusieurs variables identifiantes
+
+Je pars maintenant d'une base sur les trajets domicile-travail 
+contenant une ligne par commune et par mode de transport. Le cas pourrait 
+s'étendre à toute forme de base semi-agrégée, par exemple contenant 
+une ligne par commune, mode de transport, sexe et catégorie socio-
+professionnelle.
+
+```{r echo = FALSE}
+# Un exemple de Data frame avec quelques communes :
+data <- dplyr::tibble(
+  
+  # Code des communes
+  COM19 = c("14712", "14712", "14001", "14001", "45287", "45307"),
+  
+  # Code des communes
+  MODTRANS = c("voiture", "vélo", "voiture", "vélo", "voiture", "voiture"),
+  
+  # Nombre d'actifs qui se déplacent
+  IPONDI = c(12062, 266, 384, 52, 101, 418),
+  
+  # Distance moyenne
+  DIST = c(18.02278, 7.66685, 20.69776, 8.89907, 40.36829, 31.30092),
+
+  # Durée moyenne des trajets domicile-travail
+  DUREE = c(18.11675, 10.15484, 22.43131, 13.24867, 40.30286, 29.91029)
+
+)
+```
+
+```{r}
+# Base semi-agrégée par commune et par mode de transport
+data
+# Change la géographie et ajoute les informations de la table de passage
+new <- data %>% change_cog(
+  cog_from = 2019, cog_to = 2020, 
+  from = COM19, to = "COM20",
+  infos = TRUE
+)
+new
+```
+
+Pour recalculer les variables, je précise qu'il faut ajouter la colonne 
+identifiante MODTRANS.
+
+```{r}
+# Recalcule les variables avec une pondération initiale et une pondération finale
+new <- new %>% adapt_to_change(
+  from = COM19, to = COM20,
+  id_cols = MODTRANS,
+  mean_cols = c(DIST, DUREE), sum_cols = IPONDI,
+  weight_from = IPONDI, weight_to = POP_FIN
+)
+new
+```
+
+Je vérifie que mes agrégats sont bien respectés.
+      
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+
+Remarque : si j'ai plusieurs autres colonnes identifiantes, je les ajoute 
+de la même façon.
+
+```{r, eval = FALSE}
+# Si j'ai initialement une ligne par COM19, MODTRANS, SEXE et CS1
+new <- new %>% adapt_to_change(
+  from = COM19, to = COM20,
+  id_cols = c("MODTRANS", "SEXE", "CS1"),
+  mean_cols = c(DIST, DUREE), sum_cols = IPONDI,
+  weight_from = IPONDI, weight_to = POP_FIN
+)
+```
+
+
+

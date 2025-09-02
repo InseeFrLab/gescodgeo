@@ -1,0 +1,184 @@
+---
+title: "Cas d'une base individuelle"
+subtitle: "Recalculer les variables après un changement de géographie (1/3)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cas d'une base individuelle}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(digits = 4)
+```
+
+Cette page présente deux méthodes pour recalculer les moyennes et les 
+effectifs après un changement de géographie. Ces 
+solutions sont valables pour une base individuelle ou agrégée selon une ou plusieurs 
+variables. Elles s'appliquent aussi, par extension, pour une base communale.
+
+Je pars d'une base individuelle sur les trajets domicile-travail et les émissions
+de CO2 en géographie géographie 2019 (variable COM19), 
+que je souhaite passer en géographie 2020. 
+
+```{r echo = FALSE}
+# Un exemple de Data frame avec quelques communes :
+data <- dplyr::tibble(
+  # Prénom
+  PRENOM = c("Pierre", "Paul", "Jacques", "Livia", "Estelle", "Louise"),
+
+  # Code des communes
+  COM19 = c("14001", "14712", "21183", "21507", "21183", "21507"),
+  
+  # Pondération
+  IPONDI = c(4, 2, 2, 4, 2, 2),
+  
+  # Distance
+  DIST = c(13.6, 15.7, 9.82, 16.2, 12.2, 13.5),
+
+  # Durée
+  CO2_HEBDO = c(13953, 16325, 12183, 16156, 12676, 7801)
+
+)
+```
+```{r message = FALSE}
+# Librairies utilisées dans cet exemple
+library(dplyr)
+library(gescodgeo)
+
+# Déplacements domicile-travail dans quelques communes
+data
+```
+
+Ces individus n'ont pas la même pondération (variable IPONDI). La variable DIST 
+représente la distance domicile-travail en km. La variable CO2_HEBDO représente les
+émissions de gaz à effet de serre occasionés par les trajets domicile-travail pour 
+une semaine moyenne, exprimés en équivalent CO2.
+
+Je commence par changer la géographie, passant de 2019 à 2020. 
+
+```{r}
+# Change la géographie des communes
+new <- data %>%
+  change_cog(cog_from = 2019, cog_to = 2020, from = COM19, to = "COM20") 
+
+# Nouvelle base
+new
+```
+
+On remarque ci-dessus que Paul apparait deux fois dans la nouvelle base, pour tenir compte 
+de la scission de la commune 14712. À cause de cette duplication, les moyennes et les effectifs totaux ne sont pas respectés après le changement de géographie.
+
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+
+## Méthode 1 : utiliser une clé de répartition issue de la table de passage
+
+Pour rétablir des agrégats cohérents, il suffirait de diviser par deux la 
+pondération des individus vivant dans les communes 14666 et 14712 en 
+géographie 2020. Cette approximation est souvent suffisante. 
+Cependant, afin d'être plus précis, je souhaite tenir compte du 
+poids relatif des communes scindées d'après leur population finale 
+
+
+```{r}
+# Table de passage entre 2019 et 2020
+cog_transition(2019, 2020)
+```
+
+La fonction `change_cog()` permet d'ajouter un ratio qui 
+donne directement une clé de répartition (variable SPLIT_RATIO).
+
+```{r}
+# Change la géographie des communes et ajoute la colonne SPLIT_RATIO
+new <- data %>%
+  change_cog(cog_from = 2019, cog_to = 2020, from = COM19, to = "COM20", 
+             split_ratio = TRUE) 
+
+# Utilise SPLIT_RATIO pour corriger la pondération des communes scindées
+new <- new %>% mutate(IPONDI = SPLIT_RATIO * IPONDI)
+
+# Nouvelle base
+new
+```
+
+On peut vérifier que les agrégats sont corrects après le changement de 
+géographie et le recalcul des variables.
+
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+
+## Méthode 2 : ne pas dupliquer les lignes en cas de scission
+
+
+Selon les analyses statistiques, on peut avoir besoin, ou pas, de refléter 
+l'exhaustivité du territoire dans la géographie finale, en faisant aparaître 
+toutes les communes qui ont défusionné.
+
+L'alternative présentée ici correspond à une approche dans laquelle on considère 
+qu'il n'est pas utile de rendre visible ces communes issues 
+d'une scission. On perd en précision, mais cela rend plus simple le recalcul 
+des variables numériques après un changement de géographie.
+
+
+L'argument `one_to_one` de la fonction `change_cog()` permet de ne garder qu'une 
+seule commmune en cas de scission. Le code est celui de la commune initiale s'il
+est présent dans l'une des communes issues de la scission, sinon il correspond à 
+celui de la commune fille qui est la plus peuplée. Cette option permet d'éviter 
+que des lignes soient dupliquées en cas de scission. La base finale contient donc 
+le même nombre de ligne que la base initiale.
+
+```{r}
+# Change la géographie de 2019 à 2020 avec une nouvelle variable COM20
+new <- data %>% 
+  change_cog(cog_from = 2019, 
+             cog_to = 2020, 
+             from = COM19, 
+             to = "COM20",
+             one_to_one = TRUE)
+new
+```
+
+On peut vérifier que les agrégats sont bien respectés :
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  CO2_HEBDO = weighted.mean(CO2_HEBDO, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```

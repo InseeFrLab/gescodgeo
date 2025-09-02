@@ -42,7 +42,6 @@ nexus.insee.fr.
 
 ``` r
 # Installation de gescodgeo et de ses dépendances depuis le dépôt r-local
-install.packages("gescodgeo", repos = "https://nexus.insee.fr/repository/r-public/")
 ```
 
 Cette instruction permet également de mettre à jour le package, ce qui

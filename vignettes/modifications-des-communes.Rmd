@@ -1,0 +1,128 @@
+---
+title: "Historique des modifications des communes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Historique des modifications des communes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(digits = 4)
+```
+
+Les tableaux ci-dessous présentent les fusions et les scissions de commune, ainsi
+que les autres changements de code géographique survenus depuis 2008,
+d'après la table de passage de gescodgeo.
+
+<details><summary>Afficher/masquer le détail du code</summary>
+```{r warning = FALSE, message = FALSE}
+# Librairies
+library(dplyr)
+library(gescodgeo)
+```
+```{r}
+# Liste des fusions
+fusions  <- data.frame(COG_INI = c(), COG_FIN = c())
+for(i in c(gescodgeo::cog_min:(gescodgeo::cog_max-1))) {
+
+  j <- i + 1
+  table_passage <- cog_transition(i, j) %>%
+    filter(NB_COM_INI > NB_COM_FIN) %>%
+    mutate(COG_INI = {i}, COG_FIN = {j})
+
+  fusions <- bind_rows(fusions, table_passage) %>%
+    select(COG_INI, COG_FIN, COM_INI, COM_FIN, NB_COM_INI, NB_COM_FIN)
+
+}
+
+# Liste des scissions
+scissions  <- data.frame(COG_INI = c(), COG_FIN = c())
+for(i in c(gescodgeo::cog_min:(gescodgeo::cog_max-1))) {
+
+  j <- i + 1
+  table_passage <- cog_transition(i, j) %>%
+    filter(NB_COM_INI < NB_COM_FIN) %>%
+    mutate(COG_INI = {i}, COG_FIN = {j})
+
+  scissions <- bind_rows(scissions, table_passage) %>%
+    select(COG_INI, COG_FIN, COM_INI, COM_FIN, NB_COM_INI, NB_COM_FIN)
+
+}
+
+# Autres changements
+autre  <- data.frame(COG_INI = c(), COG_FIN = c())
+for(i in c(gescodgeo::cog_min:(gescodgeo::cog_max-1))) {
+
+  j <- i + 1
+  table_passage <- cog_transition(i, j) %>%
+    filter(NB_COM_INI == NB_COM_FIN) %>%
+    mutate(COG_INI = {i}, COG_FIN = {j})
+
+  autre <- bind_rows(autre, table_passage) %>%
+    select(COG_INI, COG_FIN, COM_INI, COM_FIN, NB_COM_INI, NB_COM_FIN)
+
+}
+```
+</details>
+
+## Modifications des codes des communes {.tabset}
+
+#### Fusions
+
+```{r, echo = FALSE}
+fusions %>%
+  mutate("PERIODE" = paste(COG_INI,"- ", COG_FIN)) %>%
+  select(PERIODE, COM_INI, COM_FIN, "NB_COM_INI") %>%
+  DT::datatable(colnames = c("Transition", "Code initial", 
+                             "Code final", 
+                             "Nombre de communes initiales"),
+                filter = "top",
+                style = "auto",
+                rownames = FALSE)
+```
+
+#### Scissions
+
+```{r, echo = FALSE}
+scissions %>%
+  mutate("PERIODE" = paste(COG_INI,"- ", COG_FIN)) %>%
+  select(PERIODE, COM_INI, COM_FIN, "NB_COM_FIN") %>%
+  DT::datatable(colnames = c("Transition", "Code initial", 
+                             "Code final", 
+                             "Nombre de communes finales"),
+                filter = "top",
+               style = "auto",
+                rownames = FALSE)
+```
+
+#### Autres changements
+
+```{r, echo = FALSE}
+autre %>%
+  mutate("PERIODE" = paste(COG_INI,"- ", COG_FIN)) %>%
+  select(PERIODE, COM_INI, COM_FIN) %>%
+  DT::datatable(colnames = c("Transition", "Code initial", 
+                             "Code final"),
+                filter = "top",
+                style = "auto",
+                rownames = FALSE)
+```
+
+## Cohérence avec les fichiers annuels du COG
+
+La table de passage de gescodgeo permet d'obtenir des codes géographiques 
+cohérents avec ceux des fichiers annuels du code officiel géographique, des 
+populations légales ou encore des principales sources statistiques, comme le 
+recensement de la population.
+
+À cette fin, deux changements de géographie sont décalés d'un an :
+
+- 55298 devient 55298 et 55138 en 2015 et non en 2014,
+- 14697 devient 14472 en 2016 et non en 2015.
+
+

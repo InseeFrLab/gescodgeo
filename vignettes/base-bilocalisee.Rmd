@@ -1,0 +1,158 @@
+---
+title: "Cas d'une base bilocalisée"
+subtitle: "Recalculer les variables après un changement de géographie (3/3)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cas d'une base bilocalisée}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(digits = 4)
+```
+
+Dans cette exemple, je pars d'une base sur les trajets domicile-travail 
+contenant une ligne par commune de départ et d'arrivée. Ces communes sont 
+renseignées en géographie 2019 (variable RESID_19 et TRAV_19).
+Je souhaite les passer en géographie 2020.
+
+```{r echo = FALSE}
+# Un exemple de Data frame avec quelques communes :
+data <- dplyr::tibble(
+  
+  # Communes de résidence
+  RESID_19 = c("14712", "14001", "21183", "21507", "45287", "45307"),
+  
+  # Communes de travail
+  TRAV_19 = c("14712", "14712", "21001", "21507", "45001", "45307"),
+  
+  # Nombre d'actifs qui se déplacent
+  IPONDI = c(12062.88130, 2266.15705, 384.93408, 125, 101, 418.26613),
+  
+  # Distance moyenne
+  DIST = c(18.02278, 23.66685, 20.69776, 20.89907, 40.36829, 31.30092),
+
+  # Durée moyenne des trajets domicile-travail
+  DUREE = c(18.11675, 21.15484, 22.43131, 23.24867, 40.30286, 29.91029)
+
+)
+```
+```{r message = FALSE}
+# Librairies utilisées dans cet exemple
+library(dplyr)
+library(gescodgeo)
+
+# Déplacements domicile-travail dans quelques communes
+data
+```
+
+## Changer la géographie
+
+Je commence par changer la géographie de cette base, passant de 2019 à 2020. 
+
+```{r}
+# Change la géographie des communes
+new <- data %>%
+  change_cog(cog_from = 2019, cog_to = 2020, from = RESID_19, to = "RESID_20") %>%
+  change_cog(cog_from = 2019, cog_to = 2020, from = TRAV_19, to = "TRAV_20") 
+
+new
+```
+
+Je souhaite revenir à une ligne par lieu de résidence et de travail selon la 
+géographie 2020. Je pourrais le faire directement avec la fonction `summarise()` 
+de `dplyr`.
+
+```{r}
+# Agrège les moyennes DIST et DUREE et l'effectif IPONDI dans la nouvelle géographie
+new <- new %>% 
+  group_by(RESID_20, TRAV_20) %>%
+  summarise(DIST = weighted.mean(DIST, IPONDI),
+            DUREE = weighted.mean(DUREE, IPONDI),
+            IPONDI = sum(IPONDI),
+            .groups = "drop")
+
+new
+```
+
+Toutefois, la transformation que j'ai effectuée ne respecte pas les agrégats 
+(effectif total, durée moyenne et durée totale), car les communes scindées 
+ont été dupliquées.
+
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
+## Utiliser une clé de répartition fournie par la fonction change_cog()
+
+Pour rétablir des agrégats cohérents, je pondère les lignes selon le poids relatif
+des communes scindées, en comparant leurs populations légales. Je peux m'appuyer
+pour cela sur la variable SPLIT_RATIO, ajoutée par la fonction `change_cog()`.
+
+```{r}
+# Change la géographie de la commune de résidence
+new <- data %>% change_cog(cog_from = 2019, cog_to = 2020, 
+                           from = RESID_19, to = "RESID_20",
+                           split_ratio = TRUE)
+
+# Modifie la pondération en utilisant une clé de répartition
+new <- new %>% mutate(IPONDI = SPLIT_RATIO * IPONDI)
+
+# Change la géographie de la commune de travail
+new <- new %>% change_cog(cog_from = 2019, cog_to = 2020, 
+                          from = TRAV_19, to = "TRAV_20", 
+                          split_ratio = TRUE) 
+
+# Modifie à nouveau la pondération en utilisant une clé de répartition
+new <- new %>% mutate(IPONDI = SPLIT_RATIO * IPONDI)
+```
+
+Les pondérations sont maintenant corrigées pour les scissions. Afin de n'avoir 
+qu'une seule ligne par commune de départ et d'arrivée, la base est agrégée avec 
+les fonctions `group_by()` et `summarise()` de dplyr.
+
+```{r}
+# Agrège les moyennes DIST et DUREE et l'effectif IPONDI dans la nouvelle géographie
+new <- new %>% 
+  group_by(RESID_20, TRAV_20) %>%
+  summarise(DIST = weighted.mean(DIST, IPONDI),
+            DUREE = weighted.mean(DUREE, IPONDI),
+            IPONDI = sum(IPONDI),
+            .groups = "drop")
+
+new
+```
+
+Je vérifie que les agrégats sont bien respectés.
+
+```{r}
+# Avant le changement de géographie
+data %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+
+# Après le changement de géographie
+new %>% summarise(
+  DIST = weighted.mean(DIST, IPONDI),
+  DUREE = weighted.mean(DUREE, IPONDI),
+  IPONDI = sum(IPONDI)
+)
+```
