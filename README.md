@@ -18,8 +18,8 @@ suivantes :
 Les années disponibles du code officiel géographique vont de 2008 à
 2025.
 
-Code officiel géographique des communes sur Insee.fr :
-  - https://www.insee.fr/fr/information/2560452
+Voir le [code officiel géographique (COG)](https://www.insee.fr/fr/information/2560452) 
+des communes sur Insee.fr.
 
 
 ## Installation
