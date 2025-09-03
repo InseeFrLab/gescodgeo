@@ -21,7 +21,7 @@ Les années vont de 2008 au dernier millésime disponible."><meta property="og:i
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.insee.fr/psar-at/gescodgeo/" aria-label="GitLab"><span class="fa fab fa-gitlab fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/thomasmorin-insee/gescodgeo/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -30,7 +30,7 @@ Les années vont de 2008 au dernier millésime disponible."><meta property="og:i
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Change l'année du code officiel géographique des communes</h1>
-      <small class="dont-index">Source: <a href="https://gitlab.insee.fr/psar-at/gescodgeo/blob/main/R/change_cog.R" class="external-link"><code>R/change_cog.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/thomasmorin-insee/gescodgeo/blob/main/R/change_cog.R" class="external-link"><code>R/change_cog.R</code></a></small>
       <div class="d-none name"><code>change_cog.Rd</code></div>
     </div>
 
@@ -80,12 +80,14 @@ Par défaut, même nom que la colonne initiale. Sans objet si <code>data</code> 
 
 
 <dt id="arg-infos">infos<a class="anchor" aria-label="anchor" href="#arg-infos"></a></dt>
-<dd><p>Ajouter les informations de la table de passage. Par défaut, FALSE.</p></dd>
+<dd><p>Ajouter les informations de la table de passage. Par défaut, FALSE.
+Sans objet si <code>data</code> est un vecteur.</p></dd>
 
 
 <dt id="arg-split-ratio">split_ratio<a class="anchor" aria-label="anchor" href="#arg-split-ratio"></a></dt>
 <dd><p>Ajouter une clé de répartition pour la réaffectation
-des effectifs quand des communes sont scindées. Par défaut, FALSE.</p></dd>
+des effectifs quand des communes sont scindées. Par défaut, FALSE.
+Sans objet si <code>data</code> est un vecteur.</p></dd>
 
 
 <dt id="arg-one-to-one">one_to_one<a class="anchor" aria-label="anchor" href="#arg-one-to-one"></a></dt>
@@ -101,7 +103,8 @@ Par défaut, FALSE.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Un objet du même type que <code>data</code>.</p><ul><li><p>Pour une data frame, une data frame avec un nombre de lignes égal ou supérieur.
 Le nombre de ligne est toujours égal si <code>one_to_one = TRUE</code>.</p></li>
-<li><p>Pour un vecteur, un vecteur de dimension égale ou supérieure.</p></li>
+<li><p>Pour un vecteur, un vecteur de dimension égale ou supérieure.
+La dimension est toujours égale si <code>one_to_one = TRUE</code>.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -120,19 +123,30 @@ Le nombre de ligne est toujours égal si <code>one_to_one = TRUE</code>.</p></li
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 53249</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 53249</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Variante : ne retient qu'une commune après scission</span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">change_cog</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"COM"</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span>, one_to_one <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     COM</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 14712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 16233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 16233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 53249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 53249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 53249</span>
+<span class="r-in"><span><span class="co"># Variante : ne retient qu'une commune apres scission</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">change_cog</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"COM"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="st">"COM_21"</span>,</span></span>
+<span class="r-in"><span>  cog_from <span class="op">=</span> <span class="fl">2019</span>,</span></span>
+<span class="r-in"><span>  cog_to <span class="op">=</span> <span class="fl">2021</span>,</span></span>
+<span class="r-in"><span>  one_to_one <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     COM COM_21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 14712  14712</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 16233  16233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 16351  16233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 53239  53249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 53249  53249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 53274  53249</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Informations de la table de passage</span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">change_cog</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"COM"</span>, to <span class="op">=</span> <span class="st">"COM_21"</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span>, infos <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">change_cog</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"COM"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="st">"COM_21"</span>,</span></span>
+<span class="r-in"><span>  cog_from <span class="op">=</span> <span class="fl">2019</span>,</span></span>
+<span class="r-in"><span>  cog_to <span class="op">=</span> <span class="fl">2021</span>,</span></span>
+<span class="r-in"><span>  infos <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     COM COM_21 POP_INI POP_FIN NB_COM_INI NB_COM_FIN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 14712  14666    5428    1912          1          2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 14712  14712    5428    3481          1          2</span>
@@ -142,9 +156,14 @@ Le nombre de ligne est toujours égal si <code>one_to_one = TRUE</code>.</p></li
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 53249  53249     463    1121          3          1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 53274  53249     237    1121          3          1</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Clé de répartition pour les communes scindées</span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">change_cog</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"COM"</span>, to <span class="op">=</span> <span class="st">"COM_21"</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span>, split_ratio <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Cle de repartition pour les scissions</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">change_cog</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"COM"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="st">"COM_21"</span>,</span></span>
+<span class="r-in"><span>  cog_from <span class="op">=</span> <span class="fl">2019</span>,</span></span>
+<span class="r-in"><span>  cog_to <span class="op">=</span> <span class="fl">2021</span>,</span></span>
+<span class="r-in"><span>  split_ratio <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     COM COM_21 SPLIT_RATIO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 14712  14666   0.3545337</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 14712  14712   0.6454663</span>
@@ -155,9 +174,8 @@ Le nombre de ligne est toujours égal si <code>one_to_one = TRUE</code>.</p></li
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 53274  53249   1.0000000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pour un vecteur</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">COM</span></span></span>
-<span class="r-in"><span><span class="fu">change_cog</span><span class="op">(</span><span class="va">x</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "14666" "14712" "16233" "16233" "53249" "53249" "53249"</span>
+<span class="r-in"><span><span class="fu">change_cog</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"14712"</span>, <span class="st">"16233"</span>, <span class="st">"16351"</span><span class="op">)</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "14666" "14712" "16233" "16233"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

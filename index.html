@@ -39,7 +39,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.insee.fr/psar-at/gescodgeo/" aria-label="GitLab"><span class="fa fab fa-gitlab fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/thomasmorin-insee/gescodgeo/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -70,6 +70,7 @@
 <li>Passer des arrondissements municipaux à la commune et réciproquement pour Paris, Lyon et Marseille.</li>
 </ul>
 <p>Les années disponibles du code officiel géographique vont de 2008 à 2025.</p>
+<p>Code officiel géographique des communes sur Insee.fr : - <a href="https://www.insee.fr/fr/information/2560452" class="external-link uri">https://www.insee.fr/fr/information/2560452</a></p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -81,15 +82,15 @@
 <h2 id="exemples">Exemples<a class="anchor" aria-label="anchor" href="#exemples"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://psar-at.gitlab-pages.insee.fr/gescodgeo/" class="external-link">gescodgeo</a></span><span class="op">)</span></span></code></pre></div>
-<p>Un exemple de Data frame avec quelques communes :</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thomasmorin-insee.github.io/gescodgeo/" class="external-link">gescodgeo</a></span><span class="op">)</span></span></code></pre></div>
+<p>Un exemple de Data frame avec quelques communes</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>COM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"14712"</span>, <span class="st">"53239"</span>, <span class="st">"53249"</span>, <span class="st">"53274"</span>, <span class="st">"13201"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Les communes sont dans le COG de l’annee 2019 :</p>
+<p>Les communes sont dans le COG de l’annee 2019</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>Mais pas dans celui de l’annee 2021 :</p>
+<p>Mais pas dans celui de l’annee 2021</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; Warning: </span></span>
@@ -106,7 +107,7 @@
 <span><span class="co">#&gt; 4 53249    53249</span></span>
 <span><span class="co">#&gt; 5 53274    53249</span></span>
 <span><span class="co">#&gt; 6 13201    13201</span></span></code></pre></div>
-<p>Renvoie la table de passage entre 2019 et 2021 :</p>
+<p>Renvoie la table de passage entre 2019 et 2021</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/cog_transition.html">cog_transition</a></span><span class="op">(</span>cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 x 7</span></span>
@@ -118,7 +119,7 @@
 <span><span class="co">#&gt; 4 16351   16233       594    1026          2          1       1    </span></span>
 <span><span class="co">#&gt; 5 21183   21183       896    1046          2          1       1    </span></span>
 <span><span class="co">#&gt; 6 21213   21452       807    2789          2          1       1</span></span></code></pre></div>
-<p>Évènements pour un code géographique donné :</p>
+<p>Évènements pour un code géographique donné</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/cog_events.html">cog_events</a></span><span class="op">(</span><span class="st">"14712"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   COG_INI COG_FIN COM_INI COM_FIN NB_COM_INI NB_COM_FIN</span></span>
@@ -126,7 +127,7 @@
 <span><span class="co">#&gt; 2    2016    2017   14712   14712          2          1</span></span>
 <span><span class="co">#&gt; 3    2019    2020   14712   14666          1          2</span></span>
 <span><span class="co">#&gt; 4    2019    2020   14712   14712          1          2</span></span></code></pre></div>
-<p>Passe de la commune à l’arrondissmeent municipal à la commune :</p>
+<p>Passe de l’arrondissement municipal à la commune</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/arm_to_com.html">arm_to_com</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     COM</span></span>
@@ -135,12 +136,12 @@
 <span><span class="co">#&gt; 3 53249</span></span>
 <span><span class="co">#&gt; 4 53274</span></span>
 <span><span class="co">#&gt; 5 13055</span></span></code></pre></div>
-<p>Passe de l’arrondissmeent municipal à la commune :</p>
+<p>Passe de la commune à l’arrondissement municipal (exemple pour un vecteur)</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="st">"13055"</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/com_to_arm.html">com_to_arm</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208" "13209"</span></span>
-<span><span class="co">#&gt;  [10] "13210" "13211" "13212" "13213" "13214" "13215" "13216"</span></span></code></pre></div>
-<p>Passe aux départements et aux régions :</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"13001"</span>, <span class="st">"13055"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/com_to_arm.html">com_to_arm</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "13001" "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208"</span></span>
+<span><span class="co">#&gt; [10] "13209" "13210" "13211" "13212" "13213" "13214" "13215" "13216"</span></span></code></pre></div>
+<p>Passe aux départements et aux régions</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/com_to_dep.html">com_to_dep</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">COM</span>, to <span class="op">=</span> <span class="st">"DEP"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/dep_to_reg.html">dep_to_reg</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">DEP</span>, to <span class="op">=</span> <span class="st">"REG"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     COM DEP REG</span></span>
@@ -154,7 +155,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://gitlab.insee.fr/psar-at/gescodgeo/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/thomasmorin-insee/gescodgeo/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 
@@ -162,7 +163,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small>GPL (&gt;= 3)</small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a></small></li>
 </ul>
 </div>
 
