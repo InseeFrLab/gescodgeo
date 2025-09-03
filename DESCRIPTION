@@ -1,9 +1,10 @@
 Package: gescodgeo
 Title: Gestion des codes géographiques
 Version: 2025.1
-Authors@R: 
-    person(family = "Thomas Morin", role = c("aut", "cre"), email = "dr13-psar-at@insee.fr"),
+Authors@R: c(
+    person("Thomas", "Morin", role = c("aut", "cre")),
     person(family = "Institut national de la statistique et des études économiques", role = "cph")
+  )
 Description: Le package ‘gescodgeo’ regroupe des fonctions utiles pour la gestion des codes géographiques, développées sur AUS pour des travaux du PSAR - Analyses Territoriales.
 License: MIT
 Encoding: UTF-8
