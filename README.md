@@ -18,6 +18,9 @@ suivantes :
 Les années disponibles du code officiel géographique vont de 2008 à
 2025.
 
+Code officiel géographique des communes sur Insee.fr :
+  - https://www.insee.fr/fr/information/2560452
+
 
 ## Installation
 
@@ -27,27 +30,25 @@ Installer la dernière version stable depuis github :
 remotes::install_github("thomasmorin-insee/gescodgeo")
 ```
 
-
 ## Exemples
-
 
 ``` r
 library(gescodgeo)
 ```
 
-Un exemple de Data frame avec quelques communes :
+Un exemple de Data frame avec quelques communes
 
 ``` r
 data <- data.frame(COM = c("14712", "53239", "53249", "53274", "13201"))
 ```
 
-Les communes sont dans le COG de l'annee 2019 :
+Les communes sont dans le COG de l'annee 2019
 ``` r
 data |> check_cog(cog = 2019) 
 #> [1] TRUE
 ```
 
-Mais pas dans celui de l'annee 2021 :
+Mais pas dans celui de l'annee 2021
 ``` r
 data |> check_cog(cog = 2021) 
 #> Warning: 
@@ -68,7 +69,7 @@ data |> change_cog(from = COM, to = "COM_2021", cog_from = 2019, cog_to = 2021)
 #> 6 13201    13201
 ```
 
-Renvoie la table de passage entre 2019 et 2021 :
+Renvoie la table de passage entre 2019 et 2021
 ``` r
 cog_transition(cog_from = 2019, cog_to = 2021) |> head()
 #> # A tibble: 6 x 7
@@ -82,7 +83,7 @@ cog_transition(cog_from = 2019, cog_to = 2021) |> head()
 #> 6 21213   21452       807    2789          2          1       1
 ```
 
-Évènements pour un code géographique donné :
+Évènements pour un code géographique donné
 ``` r
 cog_events("14712")
 #>   COG_INI COG_FIN COM_INI COM_FIN NB_COM_INI NB_COM_FIN
@@ -92,7 +93,7 @@ cog_events("14712")
 #> 4    2019    2020   14712   14712          1          2
 ```
 
-Passe de la commune à l'arrondissmeent municipal à la commune :
+Passe de l'arrondissement municipal à la commune
 ``` r
 data |> arm_to_com()
 #>     COM
@@ -103,14 +104,14 @@ data |> arm_to_com()
 #> 5 13055
 ``` 
 
-Passe de l'arrondissmeent municipal à la commune :
+Passe de la commune à l'arrondissement municipal (exemple pour un vecteur)
 ``` r
-"13055" |> com_to_arm()
-#>  [1] "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208" "13209"
-#>  [10] "13210" "13211" "13212" "13213" "13214" "13215" "13216"
+c("13001", "13055") |> com_to_arm()
+#> [1] "13001" "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208"
+#> [10] "13209" "13210" "13211" "13212" "13213" "13214" "13215" "13216"
 ```
 
-Passe aux départements et aux régions :
+Passe aux départements et aux régions
 ``` r
 data |> com_to_dep(from = COM, to = "DEP") |> dep_to_reg(from = DEP, to = "REG")
 #>     COM DEP REG

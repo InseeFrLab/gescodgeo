@@ -1,17 +1,17 @@
 ################################################################################
 #
-# (1/3) Donnees renseignees a la volee pour le fonctionnement du package
+# (1/3) Données renseignées à la volée pour le fonctionnement du package
 #
 ################################################################################
 
-#' Plus petite annee disponible
+#' Plus petite année disponible
 #'
 #' @format Nombre
 #' @encoding UTF-8
 #' @export
 cog_min <- 2008
 
-#' Annee de la base communale de reference
+#' Année de la base communale de référence
 #'
 #' @format Nombre
 #' @encoding UTF-8
@@ -26,7 +26,7 @@ cog_ref <- 2023
 #'    \item{ARM}{Code arrondissement}
 #' }
 #'
-#' Pour plus de details sur le code officiel geographique \url{https://www.insee.fr/fr/information/2560452}
+#' Pour plus de détails sur le code officiel géographique \url{https://www.insee.fr/fr/information/2560452}
 #'
 #' @encoding UTF-8
 #' @export
@@ -47,15 +47,15 @@ data_arm_com <- data.frame(
           "75117", "75118", "75119", "75120")
 )
 
-#' Table de passage entre les codes des departements et les codes des regions
+#' Table de passage entre les codes des départements et les codes des régions
 #'
 #' @format Une data frame avec 2 variables :
 #' \describe{
-#'    \item{REG}{Code region}
-#'    \item{DEP}{Code departement}
+#'    \item{REG}{Code région}
+#'    \item{DEP}{Code département}
 #' }
 #'
-#' Pour plus de details sur le code officiel geographique \url{https://www.insee.fr/fr/information/2560452}
+#' Pour plus de détails sur le code officiel géographique \url{https://www.insee.fr/fr/information/2560452}
 #'
 #' @encoding UTF-8
 #' @export
@@ -78,77 +78,77 @@ data_dep_reg <- data.frame(
 
 ################################################################################
 #
-# (2/3) Donnees du dossier data/ pour le fonctionnement du package
+# (2/3) Données du dossier data/ pour le fonctionnement du package
 #
 ################################################################################
 
-#' Plus grande annee disponible
+#' Plus grande année disponible
 #'
 #' @encoding UTF-8
 #' @format Nombre
 "cog_max"
 
-#' Table de passage du code officiel geographique des communes
+#' Table de passage du code officiel géographique des communes
 #'
-#' Base intermediaire utilisee pour le changement de geographie des communes.
-#' Contient les communes qui ont change de code officiel geographique depuis 2008.
-#' La population des communes sert de ponderation par defaut pour recalculer des variables.
-#' Voir le decoupage communal ([https://www.insee.fr/fr/information/2028028](https://www.insee.fr/fr/information/2028028))
-#' et l'historique des populations legales ([https://www.insee.fr/fr/statistiques/2522602](https://www.insee.fr/fr/statistiques/2522602))
+#' Base intermédiaire utilisée pour le changement de géographie des communes.
+#' Contient les communes qui ont changé de code officiel géographique depuis 2008.
+#' La population des communes sert de pondération par défaut pour recalculer des variables.
+#' Voir le découpage communal ([https://www.insee.fr/fr/information/2028028](https://www.insee.fr/fr/information/2028028))
+#' et l'historique des populations légales ([https://www.insee.fr/fr/statistiques/2522602](https://www.insee.fr/fr/statistiques/2522602))
 #' sur Insee.fr.
 #'
 #' @format Une data frame avec 2724 lignes et 34 variables :
 #' \describe{
-#'    \item{COM_2008}{Code geographique en 2008}
-#'    \item{COM_2009}{Code geographique en 2009}
-#'    \item{COM_2010}{Code geographique en 2010}
-#'    \item{COM_2011}{Code geographique en 2011}
-#'    \item{COM_2012}{Code geographique en 2012}
-#'    \item{COM_2013}{Code geographique en 2013}
-#'    \item{COM_2014}{Code geographique en 2014}
-#'    \item{COM_2015}{Code geographique en 2015}
-#'    \item{COM_2016}{Code geographique en 2016}
-#'    \item{COM_2017}{Code geographique en 2017}
-#'    \item{COM_2018}{Code geographique en 2018}
-#'    \item{COM_2019}{Code geographique en 2019}
-#'    \item{COM_2020}{Code geographique en 2020}
-#'    \item{COM_2021}{Code geographique en 2021}
-#'    \item{COM_2022}{Code geographique en 2022}
-#'    \item{COM_2023}{Code geographique en 2023}
-#'    \item{COM_2024}{Code geographique en 2024}
-#'    \item{POP_GEO_2008}{Population de reference en geographie 2008}
-#'    \item{POP_GEO_2009}{Population de reference en geographie 2009}
-#'    \item{POP_GEO_2010}{Population de reference en geographie 2010}
-#'    \item{POP_GEO_2011}{Population de reference en geographie 2011}
-#'    \item{POP_GEO_2012}{Population de reference en geographie 2012}
-#'    \item{POP_GEO_2013}{Population de reference en geographie 2013}
-#'    \item{POP_GEO_2014}{Population de reference en geographie 2014}
-#'    \item{POP_GEO_2015}{Population de reference en geographie 2015}
-#'    \item{POP_GEO_2016}{Population de reference en geographie 2016}
-#'    \item{POP_GEO_2017}{Population de reference en geographie 2017}
-#'    \item{POP_GEO_2018}{Population de reference en geographie 2018}
-#'    \item{POP_GEO_2019}{Population de reference en geographie 2019}
-#'    \item{POP_GEO_2020}{Population de reference en geographie 2020}
-#'    \item{POP_GEO_2021}{Population de reference en geographie 2021}
-#'    \item{POP_GEO_2022}{Population de reference en geographie 2022}
-#'    \item{POP_GEO_2023}{Population de reference en geographie 2023}
-#'    \item{POP_GEO_2024}{Population de reference en geographie 2024}
+#'    \item{COM_2008}{Code géographique en 2008}
+#'    \item{COM_2009}{Code géographique en 2009}
+#'    \item{COM_2010}{Code géographique en 2010}
+#'    \item{COM_2011}{Code géographique en 2011}
+#'    \item{COM_2012}{Code géographique en 2012}
+#'    \item{COM_2013}{Code géographique en 2013}
+#'    \item{COM_2014}{Code géographique en 2014}
+#'    \item{COM_2015}{Code géographique en 2015}
+#'    \item{COM_2016}{Code géographique en 2016}
+#'    \item{COM_2017}{Code géographique en 2017}
+#'    \item{COM_2018}{Code géographique en 2018}
+#'    \item{COM_2019}{Code géographique en 2019}
+#'    \item{COM_2020}{Code géographique en 2020}
+#'    \item{COM_2021}{Code géographique en 2021}
+#'    \item{COM_2022}{Code géographique en 2022}
+#'    \item{COM_2023}{Code géographique en 2023}
+#'    \item{COM_2024}{Code géographique en 2024}
+#'    \item{POP_GEO_2008}{Population de référence en géographie 2008}
+#'    \item{POP_GEO_2009}{Population de référence en géographie 2009}
+#'    \item{POP_GEO_2010}{Population de référence en géographie 2010}
+#'    \item{POP_GEO_2011}{Population de référence en géographie 2011}
+#'    \item{POP_GEO_2012}{Population de référence en géographie 2012}
+#'    \item{POP_GEO_2013}{Population de référence en géographie 2013}
+#'    \item{POP_GEO_2014}{Population de référence en géographie 2014}
+#'    \item{POP_GEO_2015}{Population de référence en géographie 2015}
+#'    \item{POP_GEO_2016}{Population de référence en géographie 2016}
+#'    \item{POP_GEO_2017}{Population de référence en géographie 2017}
+#'    \item{POP_GEO_2018}{Population de référence en géographie 2018}
+#'    \item{POP_GEO_2019}{Population de référence en géographie 2019}
+#'    \item{POP_GEO_2020}{Population de référence en géographie 2020}
+#'    \item{POP_GEO_2021}{Population de référence en géographie 2021}
+#'    \item{POP_GEO_2022}{Population de référence en géographie 2022}
+#'    \item{POP_GEO_2023}{Population de référence en géographie 2023}
+#'    \item{POP_GEO_2024}{Population de référence en géographie 2024}
 #' }
 #'
 #'
 #' @encoding UTF-8
 "data_table_passage"
 
-#' Base communale de reference
+#' Base communale de référence
 #'
-#' Base intermediaire utilisee par les bases communales anterieures.
+#' Base intermédiaire utilisée par les bases communales antérieures.
 #'
 #' @format Une data frame avec 34945 lignes et 1 variable :
 #' \describe{
-#'    \item{COM}{Code geographique en 2023}
+#'    \item{COM}{Code géographique en 2023}
 #' }
 #'
-#' Pour plus de details sur le code officiel geographique \url{https://www.insee.fr/fr/information/2560452}
+#' Pour plus de détails sur le code officiel géographique \url{https://www.insee.fr/fr/information/2560452}
 #'
 #' @encoding UTF-8
 "data_com_ref"

@@ -1,55 +1,55 @@
-#' Modifie une data frame pour prendre en compte les changements de geographie
+#' Modifie une data frame pour prendre en compte les changements de géographie
 #'
 #' La fonction `adapt_to_change()` adapte une data frame
-#' aux changements de geographie, pour prendre en compte les
-#' zones qui ont fusionnees ou qui se sont scindees.
-#' * Pour des fusions : reduit le nombre de lignes en supprimant les doublons, recalcule des effectifs et des moyennes, determine des categories majoritaires.
-#' * Pour des scissions : repartit les effectifs d'un parent entre ses descendants.
+#' aux changements de géographie, pour prendre en compte les
+#' zones qui ont fusionnées ou qui se sont scindées.
+#' * Pour des fusions : réduit le nombre de lignes en supprimant les doublons, recalcule des effectifs et des moyennes, détermine des catégories majoritaires.
+#' * Pour des scissions : répartit les effectifs d'un parent entre ses descendants.
 #'
 #' @param data Une data frame.
-#' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne de la geographie initiale. Par defaut, `NULL` : les fusions ne sont pas traitees.
-#' @param to [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne de la geographie finale. Par defaut, `NULL` : les scissions ne sont pas traitees.
-#' @param sum_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes des sommes a recalculer. Par defaut, `NULL`.
-#' @param mean_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes de moyennes a recalculer. Par defaut, `NULL`.
-#' @param cat_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes des categories pour lesquelles on determine la modalite majoritaire. Par defaut, `NULL`.
-#' @param weight_from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne pour la ponderation les zones initiales, utilisee pour traiter les fusions.
-#' Par defaut, `NULL` : les zones ont le meme poids.
-#' @param weight_to  [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne pour la ponderation les zones finales, utilisee pour traiter les scissions.
-#' Par defaut, `NULL` : les zones ont le meme poids.
+#' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne de la géographie initiale. Par défaut, `NULL` : les fusions ne sont pas traitées.
+#' @param to [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne de la géographie finale. Par défaut, `NULL` : les scissions ne sont pas traitées.
+#' @param sum_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes des sommes à recalculer. Par défaut, `NULL`.
+#' @param mean_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes de moyennes à recalculer. Par défaut, `NULL`.
+#' @param cat_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes des catégories pour lesquelles on détermine la modalité majoritaire. Par défaut, `NULL`.
+#' @param weight_from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne pour la pondération les zones initiales, utilisée pour traiter les fusions.
+#' Par defaut, `NULL` : les zones ont le même poids.
+#' @param weight_to  [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne pour la pondération les zones finales, utilisée pour traiter les scissions.
+#' Par defaut, `NULL` : les zones ont le même poids.
 #' @param id_cols [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonnes identifiant de façon unique chaque observation.
-#' Pris en compte pour reduire la base (option `reduce`) ou recalculer les variables.
-#' Par defaut, `NULL`.
-#' @param reduce Supprimer les lignes doublons en cas de fusion de zones.  Par defaut, `TRUE`.
-#' @param infos Ajouter les  colonnes generees par la fonction pour les
-#' calculs intermediaires. Par defaut, `FALSE`.
+#' Pris en compte pour réduire la base (option `reduce`) ou recalculer les variables.
+#' Par défaut, `NULL`.
+#' @param reduce Supprimer les lignes doublons en cas de fusion de zones.  Par défaut, `TRUE`.
+#' @param infos Ajouter les  colonnes générées par la fonction pour les
+#' calculs intermédiaires. Par défaut, `FALSE`.
 #'
-#' @return Une data frame avec un nombre de lignes egal ou inferieur.
+#' @return Une data frame avec un nombre de lignes égal ou inférieur.
 #'
 #' @details
-#' Effectifs ou sommes a recalculer (parametre `sum_cols`) : population,
+#' Effectifs ou sommes à recalculer (paramètre `sum_cols`) : population,
 #' nombre de logements, d'actifs...
 #'   * En cas de scission, les descendants se partagent l'effectif
 #'     de leur ascendant, selon leurs poids respectifs (colonne `weight_to`).
-#'   * En cas de fusion, le descendant herite de la somme des
+#'   * En cas de fusion, le descendant hérite de la somme des
 #'     effectifs de ses ascendants.
 #'
-#'  Moyennes ou ratios a recalculer (parametre `mean_cols`) : salaire moyen,
+#'  Moyennes ou ratios a recalculer (paramètre `mean_cols`) : salaire moyen,
 #'  nombre de personnes par logement...
-#'    * En cas de scission, les descendants heritent de la moyenne
+#'    * En cas de scission, les descendants héritent de la moyenne
 #'       de leur ascendant.
-#'    * en cas de fusion, le descendant herite de la moyenne
-#'       de ses ascendants, ponderee selon leurs poids respectifs (colonne `weight_from`).
+#'    * en cas de fusion, le descendant hérite de la moyenne
+#'       de ses ascendants, pondérée selon leurs poids respectifs (colonne `weight_from`).
 #'
-#' Categories a recalculer (parametre `cat_cols`) :
-#'    * En cas de fusion, le descendant herite de la categorie
+#' Catégories à recalculer (paramètre `cat_cols`) :
+#'    * En cas de fusion, le descendant hérite de la catégorie
 #'      majoritaire parmi ses ascendants, compte-tenu de leurs poids respectifs (colonne `weight_from`)
 #'
-#' Si `infos` vaut `TRUE`, les colonnes intermediaires suivantes,
-#' generees par la fonction `adapt_to_change()`, sont conservees dans la data frame  :
+#' Si `infos` vaut `TRUE`, les colonnes intermédiaires suivantes,
+#' générées par la fonction `adapt_to_change()`, sont conservées dans la data frame  :
 #'  * `NB_INI` : Nombre d'observations initiales pour des fusions
 #'  * `NB_FIN` : Nombre d'observation finales pour des scissions
 #'  * `RATIO_INI` : Poids relatif d'une ligne parmi celles qui vont fusionner
-#'  * `RATIo_FIN` : Poids relatif d'une ligne parmi celles qui resultent d'une scisson
+#'  * `RATIo_FIN` : Poids relatif d'une ligne parmi celles qui résultent d'une scisson
 #'
 #'
 #' @examples
@@ -84,7 +84,7 @@
 #'   CO2_HEBDO = c(14478, 24279, 27536)
 #' )
 #'
-#' # Changement de geographie de 2023 a 2024
+#' # Changement de geographie de 2023 à 2024
 #' data <- data |> change_cog(
 #'   from = COM23,
 #'   to = "COM24",
@@ -105,7 +105,7 @@
 #'   sum_cols = c(IPONDI, CO2_HEBDO),
 #'   mean_cols = DIST,
 #'
-#'   #' Pondere les moyennes (mean_cols) pour les communes fusionees
+#'   #' Pondère les moyennes (mean_cols) pour les communes fusionees
 #'   weight_from = IPONDI,
 #'
 #'   #' Repartit les effectifs (sum_cols) pour les communes scindees
@@ -123,7 +123,7 @@
 #'   CO2_HEBDO = c(28999, 2491)
 #' )
 #'
-#' # Changement de geographie de 2023 a 2024
+#' # Changement de geographie de 2023 à 2024
 #' data <- data |> change_cog(
 #'   from = COM23,
 #'   to = "COM24",
@@ -142,10 +142,10 @@
 #'   #' Colonne(s) identifiante(s)
 #'   id_cols = MODTRANS,
 #'
-#'   #' Pondere les moyennes (mean_cols) pour les communes fusionees
+#'   #' Pondère les moyennes (mean_cols) pour les communes fusionées
 #'   weight_from = IPONDI,
 #'
-#'   #' Repartit les effectifs (sum_cols) pour les communes scindees
+#'   #' Répartit les effectifs (sum_cols) pour les communes scindées
 #'   weight_to = POP_FIN
 #' )
 #' @encoding UTF-8
@@ -215,17 +215,17 @@ adapt_to_change <- function(data,
 
   ### Initialisation des colonnes
 
-  # Colonnes a recuperer en fin de programme
+  # Colonnes a récupérer en fin de programme
   cols_data <- colnames(data)
 
   # Existence et format des variables a recalculer
   # controle_cols_exist(data, cols = c(sum_cols, mean_cols, cat_cols))
   controle_cols_num(data, cols = c(sum_cols, mean_cols))
 
-  # Ecrase les colonnes intermediaires generees dans la fonction
+  # Ecrase les colonnes intermédiaires générées dans la fonction
   data <- ecrase_cols(data, cols = c("NB_INI", "NB_FIN", "RATIO_INI", "RATIO_FIN"))
 
-  # Infos par defaut
+  # Infos par défaut
   if(infos) {
     data <- data %>% mutate(NB_INI = 1, NB_FIN = 1, RATIO_INI = 1, RATIO_FIN = 1)
   }
@@ -243,7 +243,7 @@ adapt_to_change <- function(data,
       controle_cols_exist(data = data, cols = weight_to)
     }
 
-    # Scissions (si data variable weight_to renseignee) :
+    # Scissions (si data variable weight_to renseignée) :
     scissions <- data %>%
       filter(is.na(.data[[weight_to]]) == FALSE) %>%
       group_by(across(all_of(c(from, id_cols)))) %>%
@@ -251,11 +251,11 @@ adapt_to_change <- function(data,
       ungroup() %>%
       mutate(across(all_of(sum_cols), ~ .x * .data$RATIO_FIN))
 
-    # Reunion des bases
+    # Réunion des bases
     data <- bind_rows(scissions, data %>% filter(is.na(.data[[weight_to]])==TRUE))
   }
 
-  ### Many to on : to, weight_from, reduce -> sum_cols, mean_cols, cat_cols & agregation
+  ### Many to on : to, weight_from, reduce -> sum_cols, mean_cols, cat_cols & agrégation
 
   if(!is.null(to)) {
 

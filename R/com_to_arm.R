@@ -1,19 +1,19 @@
 #' Convertit les communes en arrondissements municipaux
 #'
-#' Convertit les codes geographiques des communes de Paris, Lyon et Marseille
-#' en codes geographiques d'arrondissements municipaux.
+#' Convertit les codes géographiques des communes de Paris, Lyon et Marseille
+#' en codes géographiques d'arrondissements municipaux.
 #'
 #' @param data Un objet de type data frame ou vecteur.
 #' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des communes.
-#' Par defaut, premiere colonne. Sans objet si `data` est un vecteur.
+#' Par défaut, première colonne. Sans objet si `data` est un vecteur.
 #' @param to Colonne finale pour les communes ou arrondissements municipaux.
-#' Par defaut, meme nom que la colonne initiale. Sans objet si `data` est un vecteur.
-#' @param extra Autres codes geographiques : valeur unique, paires de cles et de valeurs ou fonction.
-#' Par defaut, les codes geographiques en dehors Paris, Lyon et Marseille ne sont pas changes.
+#' Par défaut, même nom que la colonne initiale. Sans objet si `data` est un vecteur.
+#' @param extra Autres codes géographiques : valeur unique, paires de clés et de valeurs ou fonction.
+#' Par défaut, les codes géographiques en dehors Paris, Lyon et Marseille ne sont pas changés.
 #'
-#' @return Un objet du meme type que `data`.
-#'  * Pour une data frame, une data frame avec un nombre de lignes egal ou superieur.
-#'  * Pour un vecteur, un vecteur de dimension egale ou superieure.
+#' @return Un objet du même type que `data`.
+#'  * Pour une data frame, une data frame avec un nombre de lignes égal ou supérieur.
+#'  * Pour un vecteur, un vecteur de dimension égale ou supérieure.
 #'
 #' @examples
 #' x <- c("01123","13055","75056")
@@ -44,7 +44,7 @@ com_to_arm <- function(data, from = NULL, to = NULL, extra = function(x) {return
     if(is.null(to)) { to <-  from }
   }
 
-  # Methode codes_to_many pour une data frame ou un vecteur
+  # Méthode codes_to_many pour une data frame ou un vecteur
   data <- codes_to_many(
     data = data,
     from = from,

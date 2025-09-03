@@ -29,10 +29,12 @@ Par défaut, première colonne. Sans objet si \code{data} est un vecteur.}
 \item{to}{Colonne finale pour les communes.
 Par défaut, même nom que la colonne initiale. Sans objet si \code{data} est un vecteur.}
 
-\item{infos}{Ajouter les informations de la table de passage. Par défaut, FALSE.}
+\item{infos}{Ajouter les informations de la table de passage. Par défaut, FALSE.
+Sans objet si \code{data} est un vecteur.}
 
 \item{split_ratio}{Ajouter une clé de répartition pour la réaffectation
-des effectifs quand des communes sont scindées. Par défaut, FALSE.}
+des effectifs quand des communes sont scindées. Par défaut, FALSE.
+Sans objet si \code{data} est un vecteur.}
 
 \item{one_to_one}{Ne garder qu'une seule commmune en cas de scission.
 Le code est celui de la commune initiale s'il est
@@ -47,6 +49,7 @@ Un objet du même type que \code{data}.
 \item Pour une data frame, une data frame avec un nombre de lignes égal ou supérieur.
 Le nombre de ligne est toujours égal si \code{one_to_one = TRUE}.
 \item Pour un vecteur, un vecteur de dimension égale ou supérieure.
+La dimension est toujours égale si \code{one_to_one = TRUE}.
 }
 }
 \description{
@@ -60,19 +63,34 @@ data <- data.frame(COM=c("14712", "16233", "16351", "53239", "53249", "53274"))
 # Change l'annee du code officiel geographique des communes
 data |> change_cog(from = "COM", cog_from = 2019, cog_to = 2021)
 
-# Variante : ne retient qu'une commune après scission
-data |> change_cog(from = "COM", cog_from = 2019, cog_to = 2021, one_to_one = TRUE)
+# Variante : ne retient qu'une commune apres scission
+data |> change_cog(
+  from = "COM",
+  to = "COM_21",
+  cog_from = 2019,
+  cog_to = 2021,
+  one_to_one = TRUE
+)
 
 # Informations de la table de passage
-data |>
-  change_cog(from = "COM", to = "COM_21", cog_from = 2019, cog_to = 2021, infos = TRUE)
+data |> change_cog(
+  from = "COM",
+  to = "COM_21",
+  cog_from = 2019,
+  cog_to = 2021,
+  infos = TRUE
+)
 
-# Clé de répartition pour les communes scindées
-data |>
-  change_cog(from = "COM", to = "COM_21", cog_from = 2019, cog_to = 2021, split_ratio = TRUE)
+# Cle de repartition pour les scissions
+data |> change_cog(
+  from = "COM",
+  to = "COM_21",
+  cog_from = 2019,
+  cog_to = 2021,
+  split_ratio = TRUE
+)
 
 # Pour un vecteur
-x <- data$COM
-change_cog(x, cog_from = 2019, cog_to = 2021)
+change_cog(data = c("14712", "16233", "16351"), cog_from = 2019, cog_to = 2021)
 
 }

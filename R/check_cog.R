@@ -1,26 +1,26 @@
-#' Verifie le code geographique des communes
+#' Vérifie le code géographique des communes
 #'
-#' Compare les codes des communes au code officiel geographique (COG) pour une annee demandee.
-#' Les annees vont de 2008 au dernier millesime disponible.
+#' Compare les codes des communes au code officiel geographique (COG) pour une année demandée.
+#' Les années vont de 2008 au dernier millésime disponible.
 #'
 #' @param data Un objet de type data frame ou vecteur.
-#' @param cog  Annee du code officiel geographique, a partir de 2008.
+#' @param cog  Année du code officiel géographique, à partir de 2008.
 #' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne initiale des communes.
-#' Par defaut, premiere colonne. Sans objet si `data` est un vecteur.
-#' @param complete Verifier que les donnees sont complete,
-#' c'est-a-dire que toutes les communes du COG sont representees.
-#' Par defaut, `FALSE` : verifie uniquement si toutes les communes sont dans le COG.
+#' Par défaut, première colonne. Sans objet si `data` est un vecteur.
+#' @param complete Vérifier que les données sont complète,
+#' c'est-à-dire que toutes les communes du COG sont représentées.
+#' Par défaut, `FALSE` : vérifie uniquement si toutes les communes sont dans le COG.
 #' @param ignore_arm Ignorer les arrondissements municipaux de Paris, Lyon et Marseille.
-#' Par defaut, TRUE. Si `FALSE`, les arrondissements municipaux ne sont pas dans le COG.
+#' Par défaut, TRUE. Si `FALSE`, les arrondissements municipaux ne sont pas dans le COG.
 #' @param ignore_mayotte Ignorer communes de Mayotte.
-#' Par defaut, `FALSE.` : les communes de Mayotte sont hors du COG avant 2012 et
-#' comprises dans le COG a partir de 2012.
+#' Par défaut, `FALSE.` : les communes de Mayotte sont hors du COG avant 2012 et
+#' comprises dans le COG à partir de 2012.
 #' @param data_res Renvoyer le resultat de la comparaison dans
-#' une data frame. Par defaut, `FALSE.`
-#' @param message Generer un avertissement quand des differences
-#' avec le COG sont detectees. Par defaut, `TRUE`.
+#' une data frame. Par défaut, `FALSE.`
+#' @param message Générer un avertissement quand des différences
+#' avec le COG sont détectées. Par défaut, `TRUE`.
 #'
-#' @return Un booleen (si `data_res` vaut `FALSE`) ou une data frame (si `data_res` vaut `TRUE`).
+#' @return Un booléen (si `data_res` vaut `FALSE`) ou une data frame (si `data_res` vaut `TRUE`).
 #'
 #' @examples
 #' data <- data_com(2018)
@@ -59,7 +59,7 @@ check_cog <- function(data,
                         data_res = FALSE,
                         message = TRUE) {
 
-  # Compatibilite pour un vecteur
+  # Compatibilité pour un vecteur
   if(!is.data.frame(data)) {
     if(is.atomic(data)) {
       data <- data.frame(COM = data)
@@ -77,7 +77,7 @@ check_cog <- function(data,
     if(is.null(from)) { from <-  colnames(data)[1] }
   }
 
-  # Garde la variable COM au format charactere
+  # Garde la variable COM au format charactère
   data <- data %>% distinct(.data[[from]]) %>%
     mutate("{from}" := as.character(.data[[from]]))
 
@@ -100,7 +100,7 @@ check_cog <- function(data,
   intrus <-anti_join(data, data_cog, by = from)
 
   # Tri des codes : fait apparaître des erreurs de cog (ex : 27258) avant des
-  # des communes de l'etranger (ex : AL3031)
+  # des communes de l'étranger (ex : AL3031)
   intrus <- intrus %>% arrange(.data[[from]])
 
   if(complete==TRUE) {

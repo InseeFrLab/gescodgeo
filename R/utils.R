@@ -45,9 +45,9 @@ unused_col_i <- function(data, prefix = "COL", i = 1) {
   return(col)
 }
 
-#' Interrompt si l'annee n'est pas valide (genere ERREUR)
+#' Interrompt si l'annee n'est pas valide (génère ERREUR)
 #'
-#' @param annee Annee demandee
+#' @param annee Année demandée
 #'
 #' @noRd
 controles_annees_dispo <- function(annee) {
@@ -62,11 +62,11 @@ controles_annees_dispo <- function(annee) {
   }
 }
 
-#' Supprime les variables qui vont etre ecrasees (genere WARNING)
+#' Supprime les variables qui vont etre ecrasees (génère WARNING)
 #'
 #' @param data data frame
-#' @param cols Colonnes ecrasees
-#' @param sauf Colonnes conservee
+#' @param cols Colonnes écrasées
+#' @param sauf Colonnes conservée
 #' @param contexte Contexte pour l'avertissement
 #'
 #' @noRd
@@ -89,10 +89,10 @@ ecrase_cols <- function(data,cols,sauf=NULL,contexte="") {
   return(data)
 }
 
-#' Controle que les colonnes sont numeriques (genere ERROR)
+#' Controle que les colonnes sont numeriques (génère ERROR)
 #'
 #' @param data Base
-#' @param cols Colonnes a contrôler
+#' @param cols Colonnes à contrôler
 #'
 #' @noRd
 controle_cols_num  <- function(data,cols)  {
@@ -103,10 +103,10 @@ controle_cols_num  <- function(data,cols)  {
   }
 }
 
-#' Controle que les colonnes existent (genere ERREUR)
+#' Controle que les colonnes existent (génère ERREUR)
 #'
 #' @param data Base
-#' @param cols Colonnes a contrôler
+#' @param cols Colonnes à contrôler
 #'
 #' @noRd
 controle_cols_exist  <- function(data, cols)  {
@@ -126,11 +126,11 @@ controle_cols_exist  <- function(data, cols)  {
 #' not_null(NULL)
 `%not_in%` <- Negate(`%in%`)
 
-#' #' Initialisation des colonnes demandees (genere WARNING)
+#' #' Initialisation des colonnes demandées (génère WARNING)
 #' #'
-#' #' @param cols Colonne demandee
+#' #' @param cols Colonne demandée
 #' #' @param cols_dispo Colonne disponible
-#' #' @param pre Premiere colonne, toujours demandee
+#' #' @param pre Première colonne, toujours demandée
 #' #' @param tout Tout ajouter
 #' #'
 #' #' @noRd
@@ -161,10 +161,10 @@ controle_cols_exist  <- function(data, cols)  {
 #' }
 #'
 #'
-#' #' Controle que les variables sont numeriques (genere WARNING)
+#' #' Controle que les variables sont numeriques (génère WARNING)
 #' #'
 #' #' @param data Base
-#' #' @param cols Colonnes a contrôler
+#' #' @param cols Colonnes à contrôler
 #' #'
 #' #' @noRd
 #' controle_format_num  <- function(data,cols)  {

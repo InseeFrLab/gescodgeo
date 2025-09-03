@@ -1,23 +1,23 @@
-#' evenements du code officiel geographique
+#' Évènements du code officiel géographique
 #'
-#' Renvoie une data frame avec les evenements ayant eu lieu depuis 2008 pour un
-#' code geographique donne : fusions, scissions ou changement de code.
+#' Renvoie une data frame avec les évenements ayant eu lieu depuis 2008 pour un
+#' code géographique donné : fusions, scissions ou changement de code.
 #'
-#' @param x Code geographique.
-#' @param message Generer un avertissement si aucun evenement n'a eu lieu
-#' depuis 2008 ou si le code demande n'aparaît pas dans le code officel
-#' geographique. Par defaut, TRUE.
+#' @param x Code géographique.
+#' @param message Générer un avertissement si aucun évènement n'a eu lieu
+#' depuis 2008 ou si le code demandé n'aparaît pas dans le code officel
+#' géographique. Par défaut, TRUE.
 #'
 #' @return Une data frame
 #'
 #' @details
-#' Colonnes de la data frame generee par la fonction `cog_events()` :
-#'  * `COG_INI` : Annee initiale du code officiel geographique.
-#'  * `COG_FIN` : Annee finale du code officiel geographique.
+#' Colonnes de la data frame générée par la fonction `cog_events()` :
+#'  * `COG_INI` : Année initiale du code officiel géographique.
+#'  * `COG_FIN` : Année finale du code officiel géographique.
 #'  * `COM_INI` : Code initial de la commune.
 #'  * `COM_FIN` : Code final de la commune.
-#'  * `NB_COM_INI` : Nombre initial de communes, _superieur a 1 pour une fusion_.
-#'  * `NB_COM_FIN` : Nombre final de communes, _superieur a 1 pour une scission_.
+#'  * `NB_COM_INI` : Nombre initial de communes, _supérieur à 1 pour une fusion_.
+#'  * `NB_COM_FIN` : Nombre final de communes, _supérieur à 1 pour une scission_.
 #' @export
 #'
 #' @examples
@@ -45,7 +45,7 @@ cog_events <- function(x, message = TRUE) {
   # Initialisation
   data <- data.frame(COG_INI = c(), COG_FIN = c())
 
-  # Boucle sur les annees du cog
+  # Boucle sur les années du cog
   for(i in c(gescodgeo::cog_min:(gescodgeo::cog_max-1))) {
 
     # Cog i+1

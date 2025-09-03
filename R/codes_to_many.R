@@ -15,16 +15,31 @@
 #' or a vector with an equal or greater dimension.
 #'
 #' @examples
-#' x <- c("B","C1","C2","A","Z")
-#' codes_1 <- c("A","A","B","C1","C2")
-#' codes_2 <-  c("a1","a2","b","c","c")
+#' # Region codes changing in 2016
+#' new_reg <- c("27", "27", "28", "28", "32", "32", "44", "44", "44", "75", "75",
+#'              "75", "76", "76", "84", "84")
+#' old_reg <- c("26", "43", "25", "23", "22", "31", "21", "41", "42", "54", "74",
+#'              "72", "73", "91", "82", "83")
 #'
-#' # Data frame
-#' dt <- data.frame(X = x)
-#' codes_to_many(dt, from = "X", to = "Y", codes_ini = codes_1, codes_fin = codes_2)
+#' # A data frame with some new regions
+#' data <- data.frame(REG = c("11", "27", "84"))
 #'
-#' # Vector
-#' codes_to_many(x, codes_ini = codes_1, codes_fin = codes_2)
+#' # Convert into old regions
+#' data |> codes_to_many(
+#'    codes_ini = new_reg,
+#'    codes_fin = old_reg,
+#'    from = "REG",
+#'    to = "OLD_REG",
+#'    extra = function(x){x}
+#' )
+#'
+#' # With a vector
+#' codes_to_many(
+#'   data = c("11", "27", "84"),
+#'   codes_ini = new_reg,
+#'   codes_fin = old_reg,
+#'   extra = function(x){x}
+#' )
 #'
 #' @encoding UTF-8
 #' @export
@@ -57,7 +72,7 @@ codes_to_many.data.frame <- function(data,
     codes_ini <-  c(codes_ini, names(extra))
     codes_fin <- c(codes_fin, unname(extra))
 
-    # Si "NA" est renseigne on l'utilisera pour les valeurs manquantes
+    # Si "NA" est renseigné on l'utilisera pour les valeurs manquantes
     if("NA" %in% names(extra)) {
       extra <- unname(extra["NA"])
     }
@@ -122,7 +137,7 @@ codes_to_many.default <- function(data,
     else if(is.function(extra)) {
       j <- extra(i)
     }
-    # extra est un vecteur nomme
+    # extra est un vecteur nommé
     else if(!is.null(names(extra))) {
       if(i %in% names(extra)) {
         j <- extra[names(extra) == i]
@@ -135,7 +150,7 @@ codes_to_many.default <- function(data,
         j <- NA
       }
     }
-    # Valeur par defaut pour les valeurs manquantes
+    # Valeur par défaut pour les valeurs manquantes
     else if(!is.null(extra)) {
       j <- extra
     }

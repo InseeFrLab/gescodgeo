@@ -14,16 +14,31 @@
 #' @return a data frame with the same number of rows or a vector of equal dimension
 #'
 #' @examples
-#' x <- c("B","C1","C2","A","Z")
-#' codes_1 <- c("A","A","B","C1","C2")
-#' codes_2 <-  c("a1","a2","b","c","c")
+#' # Region codes changing in 2016
+#' new_reg <- c("27", "27", "28", "28", "32", "32", "44", "44", "44", "75", "75",
+#'              "75", "76", "76", "84", "84")
+#' old_reg <- c("26", "43", "25", "23", "22", "31", "21", "41", "42", "54", "74",
+#'              "72", "73", "91", "82", "83")
 #'
-#' # Data frame
-#' dt <- data.frame(X = x)
-#' codes_to_one(dt, from = "X", to = "Y", codes_ini = codes_1, codes_fin = codes_2)
+#' # A data frame with some old regions
+#' data <- data.frame(REG = c("11", "26", "43", "82", "83"))
 #'
-#' # Vector
-#' codes_to_one(x, codes_ini = codes_1, codes_fin = codes_2)
+#' # Convert into new regions
+#' data |> codes_to_one(
+#'    codes_ini = old_reg,
+#'    codes_fin = new_reg,
+#'    from = "REG",
+#'    to = "NEW_REG",
+#'    extra = function(x){x}
+#' )
+#'
+#' # With a vector
+#' codes_to_one(
+#'   data = c("11", "26", "43", "82", "83"),
+#'   codes_ini = old_reg,
+#'   codes_fin = new_reg,
+#'   extra = function(x){x}
+#' )
 #'
 #' @encoding UTF-8
 #' @export
@@ -86,7 +101,7 @@ codes_to_one.default <- function(data,
     y[is.na(y)] <- extra(x[is.na(y)])
   }
 
-  # extra est un vectgeur nomme
+  # extra est un vectgeur nommé
   else if(!is.null(names(extra))) {
     y[is.na(y)] <- extra[x[is.na(y)]]
 
@@ -95,12 +110,12 @@ codes_to_one.default <- function(data,
     }
   }
 
-  # Valeur par defaut pour les manquants
+  # Valeur par défaut pour les manquants
   else if(!is.null(extra)) {
     y[is.na(y)] <- extra
   }
 
-  # Retablit les noms de x
+  # Rétablit les noms de x
   names(y) <- names(x)
 
   return(y)

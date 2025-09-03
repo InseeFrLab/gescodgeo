@@ -1,16 +1,16 @@
-#' Enleve (ou pas) les communes de Mayotte, selon l'annee du code officiel geographique
+#' Enlève (ou pas) les communes de Mayotte, selon l'année du code officiel géographique
 #'
-#' Si `cog >= 2012`, les communes de Mayotte sont conservees.
-#' Si `cog < 2012`, les communes de Mayotte sont supprimees.
+#' Si `cog >= 2012`, les communes de Mayotte sont conservées.
+#' Si `cog < 2012`, les communes de Mayotte sont supprimées.
 #'
 #' @param data Un objet de type data frame ou vecteur.
-#' @param cog Annee du cog. Par defaut, 2008 : les communes de Mayotte sont supprimees.
+#' @param cog Année du cog. Par défaut, 2008 : les communes de Mayotte sont supprimées.
 #' @param from [`<tidy-select>`][dplyr::dplyr_tidy_select] Colonne des communes.
-#' Par defaut, premiere colonne. Sans objet si `data` est un vecteur.
+#' Par défaut, première colonne. Sans objet si `data` est un vecteur.
 #'
-#' @return Un objet du meme type que `data`.
-#'  * Pour une data frame, une data frame avec un nombre de lignes inferieur ou egal.
-#'  * Pour un vecteur, un vecteur de dimension inferieure ou egale.
+#' @return Un objet du même type que `data`.
+#'  * Pour une data frame, une data frame avec un nombre de lignes inférieur ou égal.
+#'  * Pour un vecteur, un vecteur de dimension inférieure ou égale.
 #'
 #' @encoding UTF-8
 #' @export
@@ -18,10 +18,10 @@
 #' @examples
 #' data <- data.frame(COM = c("97424", "97601"))
 #'
-#' # Par defaut les lignes des communes de Mayotte sont supprimees
+#' # Par défaut les lignes des communes de Mayotte sont supprimées
 #' data |> filter_mayotte(from = COM)
 #'
-#' # Si cog >= 2012 elles sont conservees
+#' # Si cog >= 2012 elles sont conservées
 #' data |> filter_mayotte(cog = 2013, from = COM)
 #'
 #' # Pour un vecteur
