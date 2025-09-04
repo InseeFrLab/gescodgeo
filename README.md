@@ -27,7 +27,7 @@ des communes sur Insee.fr.
 Installer la dernière version stable depuis github :
 
 ``` r
-remotes::install_github("thomasmorin-insee/gescodgeo")
+remotes::install_github("InseeFrLab/gescodgeo")
 ```
 
 ## Exemples

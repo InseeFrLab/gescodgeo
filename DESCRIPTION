@@ -23,4 +23,4 @@ Imports:
     rlang,
     tidyselect
 VignetteBuilder: knitr
-URL: https://thomasmorin-insee.github.io/gescodgeo/, https://github.com/thomasmorin-insee/gescodgeo/
+URL: https://inseefrlab.github.io/gescodgeo/, https://github.com/InseeFrLab/gescodgeo/
