@@ -1,6 +1,6 @@
 Package: gescodgeo
 Title: Gestion des codes géographiques
-Version: 2025.1
+Version: 2026.0.0
 Authors@R: 
     person(family = "Thomas Morin, PSAR-AT - INSEE",
            role = c("aut", "cre"),
@@ -17,10 +17,10 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Imports: 
     dplyr,
     rlang,
     tidyselect
 VignetteBuilder: knitr
-URL: https://inseefrlab.github.io/gescodgeo/, https://github.com/InseeFrLab/gescodgeo/
+URL: https://psar-at.gitlab-pages.insee.fr/gescodgeo/, https://gitlab.insee.fr/psar-at/gescodgeo/

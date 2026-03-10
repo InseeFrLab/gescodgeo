@@ -1,6 +1,14 @@
 lang: fr
 template:
   bootstrap: 5
+  
+articles:
+- title:
+  navbar: ~
+  contents:
+  - gerer-les-codes-geographiques
+  - adapter-les-donnees
+  - modifications-des-communes
 
 reference:
 - title: Principales fonctions
@@ -17,7 +25,6 @@ reference:
   - '`com_to_dep`'
   - '`reg_to_dep`'
   - '`dep_to_reg`'
-
 - title: Données du package
   contents:
   - '`data_table_passage`'
@@ -27,7 +34,6 @@ reference:
   - '`cog_min`'
   - '`cog_ref`'
   - '`data_com_ref`'
-
 - title: Utiliser des tables de passage personalisées
   contents:
   - '`codes_to_many`'

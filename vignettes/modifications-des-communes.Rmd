@@ -1,0 +1,129 @@
+---
+title: "Historique des modifications des communes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Historique des modifications des communes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(digits = 4)
+```
+
+
+La table de passage de gescodgeo permet d'obtenir des codes géographiques 
+cohérents avec ceux des fichiers annuels du code officiel géographique (COG), des 
+populations légales ou encore des principales sources statistiques, comme le 
+recensement de la population.
+
+À cette fin, deux changements de géographie sont décalés par rapport 
+à l'année d'enregistrement dans le COG.
+
+- 55298 devient 55298 et 55138 en 2015 et non en 2014,
+- 14697 devient 14472 en 2016 et non en 2015.
+
+
+Les tableaux ci-dessous présentent les fusions et les scissions de commune, ainsi
+que les autres changements de code géographique survenus depuis 2008,
+d'après la table de passage de gescodgeo.
+
+<details><summary>Afficher/masquer le détail du code</summary>
+```{r warning = FALSE, message = FALSE}
+library(dplyr)
+library(gescodgeo)
+
+output <- function() {
+
+  for(cog_ini in c((gescodgeo::cog_max-1):gescodgeo::cog_min)) {
+    
+    cog_fin <- cog_ini + 1 
+    
+    table_passage <- cog_transition(cog_ini, cog_fin) %>%
+      mutate(PERIODE = paste0("", {cog_ini}, " - ", {cog_fin}), .after = 0)
+
+    fusions <- table_passage %>%
+      filter(NB_COM_INI > NB_COM_FIN) %>%
+      group_by(PERIODE, COM_FIN, NB_COM_INI) %>%
+      summarise(COM_INI = paste(COM_INI, collapse = ", "), .groups = "drop") %>%
+      arrange(COM_FIN)
+
+    scissions <- table_passage %>%
+      filter(NB_COM_INI < NB_COM_FIN)  %>%
+      group_by(PERIODE, COM_INI, NB_COM_FIN) %>%
+      summarise(COM_FIN = paste(COM_FIN, collapse = ", "), .groups = "drop") %>%
+      arrange(COM_INI)
+    
+    autre <- table_passage %>% 
+      filter(NB_COM_INI == NB_COM_FIN, COM_INI != COM_FIN)  %>%
+      arrange(COM_INI)
+    
+    if(nrow(table_passage) > 0) {
+
+      cat("\n## Modifications en ", cog_ini, "\n")
+      
+      cat(":::{.fw-normal .fs-6}\n")
+      
+      bind_rows(
+        fusions %>% mutate(CHANG = paste0("Fusion de ", NB_COM_INI, " communes")),
+        scissions %>% mutate(CHANG =  paste0("Scission vers ", NB_COM_FIN, " communes")),
+        autre %>% mutate(CHANG =  "Autre changement")
+      ) %>%
+        
+      select(CHANG, COM_INI, COM_FIN) %>%
+            knitr::kable(col.names = c("Évènement", "Code initial", "Code final")) %>%
+            print()
+      
+       cat("\n:::\n")
+       
+    }
+  }
+}
+
+```
+</details>
+
+```{r, results = 'asis', echo = FALSE}
+output()
+```
+
+```{r, echo = FALSE}
+  #   if(nrow(fusions) + nrow(scissions) + nrow(autre) > 0) {
+  #   
+  #     cat("\n## Modifications en ", cog_ini, "\n")
+  #     
+  #     if(nrow(scissions) > 0) {
+  #       cat("\n### Scissions de commune {.fw-normal .fs-6}\n")
+  #       scissions %>% 
+  #         select(PERIODE, COM_INI, COM_FIN, NB_COM_FIN) %>%
+  #         knitr::kable(col.names = c("Période", "Code initial", "Codes finaux", 
+  #                                    "Communes finales")) %>%
+  #         print()
+  #     }
+  #     
+  #     if(nrow(fusions) > 0) {
+  #       cat("\n### Fusions de commune {.fw-normal .fs-6}\n")
+  #       fusions %>% 
+  #         select(PERIODE, COM_INI, COM_FIN, NB_COM_INI) %>% 
+  #         knitr::kable(col.names = c("Période", "Codes initiaux", "Code final", 
+  #                                    "Communes initiales")) %>%
+  #         print()
+  #     }
+  # 
+  #     
+  #     if(nrow(autre) > 0) {
+  #       cat("\n### Autres changements {.fw-normal .fs-6}\n")
+  #       autre %>% 
+  #         select(PERIODE, COM_INI, COM_FIN) %>%
+  #         knitr::kable(col.names = c("Période", "Code initial", "Code final")) %>%
+  #         print()
+  #     }
+  #   }
+  # }
+```
+
+

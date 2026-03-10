@@ -1,3 +1,9 @@
+# gescodgeo 2026.0
+_Mars 2026_
+
+* Ajout du code officiel géographique 2026. La géographie communale est similaire à 2025, pour des raisons légales (élections municipales).
+* La population de référence 2026 est une estimation temporaire d'après la population légale 2025, car la population légale 2026 n'est pas encore disponible.
+
 # gescodgeo 2025.1
 _Juin 2025_
 
