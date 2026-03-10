@@ -23,4 +23,4 @@ Imports:
     rlang,
     tidyselect
 VignetteBuilder: knitr
-URL: https://psar-at.gitlab-pages.insee.fr/gescodgeo/, https://gitlab.insee.fr/psar-at/gescodgeo/
+URL: https://inseefrlab.github.io/gescodgeo/, https://github.com/InseeFrLab/gescodgeo/
