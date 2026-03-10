@@ -1,6 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/adapter-les-donnees.html</loc></url>
+<url><loc>/articles/gerer-les-codes-geographiques.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/modifications-des-communes.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
