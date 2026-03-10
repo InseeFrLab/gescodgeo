@@ -47,7 +47,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.insee.fr/psar-at/gescodgeo/" aria-label="GitLab"><span class="fa fab fa-gitlab fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/InseeFrLab/gescodgeo/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -57,8 +57,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="id_-gescodgeo">
- gescodgeo<a class="anchor" aria-label="anchor" href="#id_-gescodgeo"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="gescodgeo-">gescodgeo <a class="anchor" aria-label="anchor" href="#gescodgeo-"></a>
 </h1>
 </div>
 <p>Le package gescodgeo propose des fonctions pour la gestion des codes géographiques des communes. Ses principales utilisations sont les suivantes :</p>
@@ -78,58 +77,47 @@
 </li>
 <li>Passer des arrondissements municipaux à la commune et réciproquement pour Paris, Lyon et Marseille.</li>
 </ul>
-<p>Le package est développé sur AUS par le PSAR - Analyses territoriales. Le pôle Offre de Données Locales et le pôle national référentiels géographiques fournissent la table de passage pour les mises à jour annuelles. Ce groupe de travail autour du COG est piloté par la division Méthodes et référentiels géographiques.</p>
-<p>Les années disponibles du code officiel géographique vont de 2008 à 2025.</p>
-<!-- Sur ces sujets, d’autres ressources plus complètes sont disponibles :  -->
-<!-- - API DonneesLocales et Métadonnées de l'Insee (https://api.insee.fr/catalogue/) -->
-<!-- - Package `CogR` (https://gitlab.insee.fr/kmb8un/cogr) -->
-<!-- - Package `COGugaison` (https://github.com/antuki/COGugaison) -->
-<!-- Le package s'appuie sur des données du site Insee.fr :  -->
-<!-- -  Tables d’appartenance et de passage (https://www.insee.fr/fr/information/2028028) -->
-<!-- -  Historique des populations légales (https://www.insee.fr/fr/statistiques/2522602) -->
+<p>Voir le <a href="https://www.insee.fr/fr/information/2560452" class="external-link">code officiel géographique (COG)</a> des communes sur Insee.fr.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Le package gescodgeo est mis à disposition sur le dépôt R local de nexus.insee.fr.</p>
+<p>Installer la dernière version stable depuis github :</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Installation de gescodgeo et de ses dépendances depuis le dépôt r-local</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"gescodgeo"</span>, repos <span class="op">=</span> <span class="st">"https://nexus.insee.fr/repository/r-public/"</span><span class="op">)</span></span></code></pre></div>
-<p>Cette instruction permet également de mettre à jour le package, ce qui permet notamment d’obtenir le dernier millésime du code officiel géographique disponible (voir <a href="./news/index.html">changements</a>).</p>
-<p>Vous pouvez aussi installer la version en cours de développement en utilisant les instructions ci-dessous dans RStudio :</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span><span class="st">"https://gitlab.insee.fr/psar-at/gescodgeo"</span>,</span>
-<span>                     dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"InseeFrLab/gescodgeo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="un-exemple-simple">Un exemple simple<a class="anchor" aria-label="anchor" href="#un-exemple-simple"></a>
+<h2 id="exemples">Exemples<a class="anchor" aria-label="anchor" href="#exemples"></a>
 </h2>
-<p>Pour un exemple plus détaillé sur la gestion du code géographique des communes, voir <code>vignette("prise-en-main")</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://inseefrlab.github.io/gescodgeo/" class="external-link">gescodgeo</a></span><span class="op">)</span></span></code></pre></div>
+<p>Un exemple de Data frame avec quelques communes</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://psar-at.gitlab-pages.insee.fr/gescodgeo/" class="external-link">gescodgeo</a></span><span class="op">)</span></span>
-<span><span class="co"># Un exemple de Data frame avec quelques communes :</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>COM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"14712"</span>, <span class="st">"53239"</span>, <span class="st">"53249"</span>, <span class="st">"53274"</span>, <span class="st">"13201"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># Les communes sont dans le COG de l'annee 2019 :</span></span>
-<span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="co"># Mais pas dans celui de l'annee 2021 :</span></span>
-<span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>COM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"14712"</span>, <span class="st">"53239"</span>, <span class="st">"53249"</span>, <span class="st">"53274"</span>, <span class="st">"13201"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Les communes sont dans le COG de l’annee 2019</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>Mais pas dans celui de l’annee 2021</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/check_cog.html">check_cog</a></span><span class="op">(</span>cog <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; Warning: </span></span>
 <span><span class="co">#&gt; Les communes suivantes ne sont pas dans le COG de l'annee 2021 : </span></span>
 <span><span class="co">#&gt; 53239 53274</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span>
-<span><span class="co"># Change l'année de la géographie</span></span>
-<span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/change_cog.html">change_cog</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">COM</span>, to <span class="op">=</span> <span class="st">"COM_2021"</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Change l’année de la géographie</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/change_cog.html">change_cog</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">COM</span>, to <span class="op">=</span> <span class="st">"COM_2021"</span>, cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     COM COM_2021</span></span>
 <span><span class="co">#&gt; 1 14712    14666</span></span>
 <span><span class="co">#&gt; 2 14712    14712</span></span>
 <span><span class="co">#&gt; 3 53239    53249</span></span>
 <span><span class="co">#&gt; 4 53249    53249</span></span>
 <span><span class="co">#&gt; 5 53274    53249</span></span>
-<span><span class="co">#&gt; 6 13201    13201</span></span>
-<span><span class="co"># Renvoie la table de passage entre 2019 et 2021 :</span></span>
-<span><span class="fu"><a href="reference/cog_transition.html">cog_transition</a></span><span class="op">(</span>cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 7</span></span>
+<span><span class="co">#&gt; 6 13201    13201</span></span></code></pre></div>
+<p>Renvoie la table de passage entre 2019 et 2021</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/cog_transition.html">cog_transition</a></span><span class="op">(</span>cog_from <span class="op">=</span> <span class="fl">2019</span>, cog_to <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 x 7</span></span>
 <span><span class="co">#&gt;   COM_INI COM_FIN POP_INI POP_FIN NB_COM_INI NB_COM_FIN SPLIT_RATIO</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;      &lt;int&gt;       &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 14712   14666      5428    1912          1          2       0.355</span></span>
@@ -138,12 +126,43 @@
 <span><span class="co">#&gt; 4 16351   16233       594    1026          2          1       1    </span></span>
 <span><span class="co">#&gt; 5 21183   21183       896    1046          2          1       1    </span></span>
 <span><span class="co">#&gt; 6 21213   21452       807    2789          2          1       1</span></span></code></pre></div>
+<p>Évènements pour un code géographique donné</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/cog_events.html">cog_events</a></span><span class="op">(</span><span class="st">"14712"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   COG_INI COG_FIN COM_INI COM_FIN NB_COM_INI NB_COM_FIN</span></span>
+<span><span class="co">#&gt; 1    2016    2017   14666   14712          2          1</span></span>
+<span><span class="co">#&gt; 2    2016    2017   14712   14712          2          1</span></span>
+<span><span class="co">#&gt; 3    2019    2020   14712   14666          1          2</span></span>
+<span><span class="co">#&gt; 4    2019    2020   14712   14712          1          2</span></span></code></pre></div>
+<p>Passe de l’arrondissement municipal à la commune</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/arm_to_com.html">arm_to_com</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     COM</span></span>
+<span><span class="co">#&gt; 1 14712</span></span>
+<span><span class="co">#&gt; 2 53239</span></span>
+<span><span class="co">#&gt; 3 53249</span></span>
+<span><span class="co">#&gt; 4 53274</span></span>
+<span><span class="co">#&gt; 5 13055</span></span></code></pre></div>
+<p>Passe de la commune à l’arrondissement municipal (exemple pour un vecteur)</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"13001"</span>, <span class="st">"13055"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/com_to_arm.html">com_to_arm</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "13001" "13201" "13202" "13203" "13204" "13205" "13206" "13207" "13208"</span></span>
+<span><span class="co">#&gt; [10] "13209" "13210" "13211" "13212" "13213" "13214" "13215" "13216"</span></span></code></pre></div>
+<p>Passe aux départements et aux régions</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/com_to_dep.html">com_to_dep</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">COM</span>, to <span class="op">=</span> <span class="st">"DEP"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/dep_to_reg.html">dep_to_reg</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">DEP</span>, to <span class="op">=</span> <span class="st">"REG"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     COM DEP REG</span></span>
+<span><span class="co">#&gt; 1 14712  14  28</span></span>
+<span><span class="co">#&gt; 2 53239  53  52</span></span>
+<span><span class="co">#&gt; 3 53249  53  52</span></span>
+<span><span class="co">#&gt; 4 53274  53  52</span></span>
+<span><span class="co">#&gt; 5 13201  13  93</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://gitlab.insee.fr/psar-at/gescodgeo/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/InseeFrLab/gescodgeo/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 
