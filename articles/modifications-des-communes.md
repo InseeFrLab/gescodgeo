@@ -18,9 +18,11 @@ depuis 2008, d’après la table de passage de gescodgeo.
 Afficher/masquer le détail du code
 
 ``` r
+
 library(dplyr)
 library(gescodgeo)
 
+# Output
 output <- function() {
 
   for(cog_ini in c((gescodgeo::cog_max-1):gescodgeo::cog_min)) {
