@@ -34,7 +34,6 @@ d'après la table de passage de gescodgeo.
 
 <details><summary>Afficher/masquer le détail du code</summary>
 ```{r warning = FALSE, message = FALSE}
-
 library(dplyr)
 library(gescodgeo)
 
@@ -81,6 +80,8 @@ output <- function() {
       
        cat("\n:::\n")
        
+    } else {
+        cat("\n## Pas de modification en ", cog_ini, "\n")
     }
   }
 }
@@ -91,40 +92,3 @@ output <- function() {
 ```{r, results = 'asis', echo = FALSE}
 output()
 ```
-
-```{r, echo = FALSE}
-  #   if(nrow(fusions) + nrow(scissions) + nrow(autre) > 0) {
-  #   
-  #     cat("\n## Modifications en ", cog_ini, "\n")
-  #     
-  #     if(nrow(scissions) > 0) {
-  #       cat("\n### Scissions de commune {.fw-normal .fs-6}\n")
-  #       scissions %>% 
-  #         select(PERIODE, COM_INI, COM_FIN, NB_COM_FIN) %>%
-  #         knitr::kable(col.names = c("Période", "Code initial", "Codes finaux", 
-  #                                    "Communes finales")) %>%
-  #         print()
-  #     }
-  #     
-  #     if(nrow(fusions) > 0) {
-  #       cat("\n### Fusions de commune {.fw-normal .fs-6}\n")
-  #       fusions %>% 
-  #         select(PERIODE, COM_INI, COM_FIN, NB_COM_INI) %>% 
-  #         knitr::kable(col.names = c("Période", "Codes initiaux", "Code final", 
-  #                                    "Communes initiales")) %>%
-  #         print()
-  #     }
-  # 
-  #     
-  #     if(nrow(autre) > 0) {
-  #       cat("\n### Autres changements {.fw-normal .fs-6}\n")
-  #       autre %>% 
-  #         select(PERIODE, COM_INI, COM_FIN) %>%
-  #         knitr::kable(col.names = c("Période", "Code initial", "Code final")) %>%
-  #         print()
-  #     }
-  #   }
-  # }
-```
-
-

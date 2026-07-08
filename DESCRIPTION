@@ -1,6 +1,6 @@
 Package: gescodgeo
 Title: Gestion des codes géographiques
-Version: 2026.0.0
+Version: 2026.1.0
 Authors@R: 
     person(family = "Thomas Morin, PSAR-AT - INSEE",
            role = c("aut", "cre"),
