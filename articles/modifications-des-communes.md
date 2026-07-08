@@ -22,7 +22,6 @@ Afficher/masquer le détail du code
 library(dplyr)
 library(gescodgeo)
 
-# Output
 output <- function() {
 
   for(cog_ini in c((gescodgeo::cog_max-1):gescodgeo::cog_min)) {
