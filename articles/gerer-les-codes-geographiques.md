@@ -38,9 +38,10 @@ recensement.
 
 ## Vérifier le COG des communes
 
-La fonction [`check_cog()`](../reference/check_cog.md) permet de
-détecter des codes communes qui ne sont pas conformes au code officiel
-géographique d’une année donnée.
+La fonction
+[`check_cog()`](https://inseefrlab.github.io/gescodgeo/reference/check_cog.md)
+permet de détecter des codes communes qui ne sont pas conformes au code
+officiel géographique d’une année donnée.
 
 ``` r
 data %>% check_cog(cog = 2019)
@@ -57,8 +58,9 @@ Tous les codes des communes sont bien dans le code officiel géographique
 officiel géographique 2020.
 
 En cas de doute sur un code géographique particulier, la fonction
-[`cog_events()`](../reference/cog_events.md) renvoie l’historique des
-évenements du COG concernant la commune depuis 2008.
+[`cog_events()`](https://inseefrlab.github.io/gescodgeo/reference/cog_events.md)
+renvoie l’historique des évenements du COG concernant la commune depuis
+2008.
 
 ``` r
 cog_events("21507")
@@ -72,9 +74,10 @@ la colonne NB_COM_FIN est supérieure à 1.
 
 ## Voir la table de passage entre deux années
 
-La fonction [`cog_transition()`](../reference/cog_transition.md) renvoie
-la table de passage des communes entre deux années du code officiel
-géographique.
+La fonction
+[`cog_transition()`](https://inseefrlab.github.io/gescodgeo/reference/cog_transition.md)
+renvoie la table de passage des communes entre deux années du code
+officiel géographique.
 
 ``` r
 cog_transition(2019, 2020)
@@ -98,9 +101,10 @@ conforme au code officiel géographique 2020.
 
 ## Changer le COG des communes
 
-Avec la fonction [`change_cog()`](../reference/change_cog.md), j’ajoute
-une colonne COM20 contenant les codes des communes convertis dans le
-code officiel géographique 2020.
+Avec la fonction
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md),
+j’ajoute une colonne COM20 contenant les codes des communes convertis
+dans le code officiel géographique 2020.
 
 ``` r
 # Change la géographie de 2019 à 2020 avec une nouvelle variable COM20
@@ -142,7 +146,7 @@ new
 Pour aller plus loin, on peut utiliser une clé de répartition issue de
 la table de passage pour tenir compte des poids respectifs des communes
 filles : voir
-[`vignette("adapter-les-donnees")`](../articles/adapter-les-donnees.md).
+[`vignette("adapter-les-donnees")`](https://inseefrlab.github.io/gescodgeo/articles/adapter-les-donnees.md).
 
 ## Revenir à une seule ligne par commune
 
@@ -191,17 +195,21 @@ new %>% summarise(DIST = weighted.mean(DIST, IPONDI),
 
 Si on n’a pas besoin de disposer de l’exhaustivité des communes dans la
 base finale, on peut aussi utiliser l’option `one_to_one` dans la
-fonction [`change_cog()`](../reference/change_cog.md), qui permet de ne
-pas dupliquer les communes scindées, voir la deuxième méthode de la
-[`vignette("adapter-les-donnees")`](../articles/adapter-les-donnees.md).
+fonction
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md),
+qui permet de ne pas dupliquer les communes scindées, voir la deuxième
+méthode de la
+[`vignette("adapter-les-donnees")`](https://inseefrlab.github.io/gescodgeo/articles/adapter-les-donnees.md).
 
 ## Gérer les arrondissements municipaux
 
 Selon les sources statistiques, les communes de Paris, Lyon et Marseille
 peuvent être (ou ne pas être) découpées en arrondissements municipaux.
-Les fonctions [`com_to_arm()`](../reference/com_to_arm.md) et
-[`arm_to_com()`](../reference/arm_to_com.md) permettent de gérer ces
-situations.
+Les fonctions
+[`com_to_arm()`](https://inseefrlab.github.io/gescodgeo/reference/com_to_arm.md)
+et
+[`arm_to_com()`](https://inseefrlab.github.io/gescodgeo/reference/arm_to_com.md)
+permettent de gérer ces situations.
 
 ``` r
 # Passer de l'arrondissement municipal à la commune (le cas échéant)
@@ -236,8 +244,8 @@ data.frame(COM = c("75101", "75102", "13201", "13202", "13001")) %>%
 ```
 
 La plupart de ces méthodes contiennent leur réciproque (par exemple
-[`reg_to_dep()`](../reference/reg_to_dep.md)) et peuvent s’appliquer
-indifférement à une data frame ou à un vecteur.
+[`reg_to_dep()`](https://inseefrlab.github.io/gescodgeo/reference/reg_to_dep.md))
+et peuvent s’appliquer indifférement à une data frame ou à un vecteur.
 
 ``` r
 # Arrondissements de Lyon

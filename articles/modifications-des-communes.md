@@ -18,7 +18,6 @@ depuis 2008, d’après la table de passage de gescodgeo.
 Afficher/masquer le détail du code
 
 ``` r
-
 library(dplyr)
 library(gescodgeo)
 
@@ -65,10 +64,14 @@ output <- function() {
       
        cat("\n:::\n")
        
+    } else {
+        cat("\n## Pas de modification en ", cog_ini, "\n")
     }
   }
 }
 ```
+
+## Pas de modification en 2025
 
 ## Modifications en 2024
 
@@ -1061,6 +1064,8 @@ output <- function() {
 | Évènement            | Code initial        | Code final |
 |:---------------------|:--------------------|:-----------|
 | Fusion de 3 communes | 59183, 59248, 59540 | 59183      |
+
+## Pas de modification en 2009
 
 ## Modifications en 2008
 

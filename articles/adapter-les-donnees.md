@@ -106,8 +106,9 @@ cog_transition(2019, 2020)
 #> 8 45307   45307      1012    1109          2          1       1
 ```
 
-La fonction [`change_cog()`](../reference/change_cog.md) permet
-d’ajouter un ratio qui donne directement une clé de répartition
+La fonction
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md)
+permet d’ajouter un ratio qui donne directement une clé de répartition
 (variable SPLIT_RATIO).
 
 ``` r
@@ -171,13 +172,13 @@ d’une scission. On perd en précision, mais cela rend plus simple le
 recalcul des variables numériques après un changement de géographie.
 
 L’argument `one_to_one` de la fonction
-[`change_cog()`](../reference/change_cog.md) permet de ne garder qu’une
-seule commmune en cas de scission. Le code est celui de la commune
-initiale s’il est présent dans l’une des communes issues de la scission,
-sinon il correspond à celui de la commune fille qui est la plus peuplée.
-Cette option permet d’éviter que des lignes soient dupliquées en cas de
-scission. La base finale contient donc le même nombre de ligne que la
-base initiale.
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md)
+permet de ne garder qu’une seule commmune en cas de scission. Le code
+est celui de la commune initiale s’il est présent dans l’une des
+communes issues de la scission, sinon il correspond à celui de la
+commune fille qui est la plus peuplée. Cette option permet d’éviter que
+des lignes soient dupliquées en cas de scission. La base finale contient
+donc le même nombre de ligne que la base initiale.
 
 ``` r
 # Change la géographie de 2019 à 2020 avec une nouvelle variable COM20
@@ -332,7 +333,8 @@ new %>% summarise(
 Pour rétablir des agrégats cohérents, je pondère les lignes selon le
 poids relatif des communes scindées, en comparant leurs populations
 légales. Je peux m’appuyer pour cela sur la variable SPLIT_RATIO,
-ajoutée par la fonction [`change_cog()`](../reference/change_cog.md).
+ajoutée par la fonction
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md).
 
 ``` r
 # Change la géographie de la commune de résidence
@@ -414,14 +416,15 @@ new %>% summarise(
 ## Utiliser une fonction dédiée
 
 Quand une base contient une seule ligne par commune, la fonction
-[`adapt_to_change()`](../reference/adapt_to_change.md) permet de
-recalculer les moyennes et le effectifs pour tenir compte du changement
-de géographie. Il est aussi possible de déterminer des catégories
-majoritaires pour les communes fusionnées en utilisant l’argument
-`cat_cols`. C’est notamment utile pour transposer un zonage dans une
-autre géographie.
+[`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md)
+permet de recalculer les moyennes et le effectifs pour tenir compte du
+changement de géographie. Il est aussi possible de déterminer des
+catégories majoritaires pour les communes fusionnées en utilisant
+l’argument `cat_cols`. C’est notamment utile pour transposer un zonage
+dans une autre géographie.
 
-La fonction [`adapt_to_change()`](../reference/adapt_to_change.md)
+La fonction
+[`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md)
 s’applique aussi à une base semi-agrégée, en précisant les différentes
 variables identifiantes avec l’argument `id_cols`. Toutefois, si la base
 est trop complexe, il est souvant plus facile de revenir aux méthodes
@@ -456,7 +459,8 @@ Je souhaite maintenant adapter la pondération (variable IPONDI), les
 distances moyennes (DIST) et les durées moyennes (DUREE) pour tenir
 compte du nouveau découpage des communes.
 
-Dans la fonction [`adapt_to_change()`](../reference/adapt_to_change.md),
+Dans la fonction
+[`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md),
 je mentionne la géographie initiale, la géographie finale, ainsi que les
 variables que je souhaite recalculer. Je précise également que la
 variable IPONDI correspond au poids de mes observations dans la base
@@ -540,10 +544,11 @@ cog_transition(2019, 2020)
 On peut utiliser cette clé de répartition pour attribuer plus finement
 les effectifs après la scission. D’abord, j’indique que je souhaite
 conserver les informations issues de la table de passage dans la
-fonction [`change_cog()`](../reference/change_cog.md). Ensuite,
-j’utilise la population finale pour pondérer les observations après
-transformation dans la fonction
-[`adapt_to_change()`](../reference/adapt_to_change.md).
+fonction
+[`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md).
+Ensuite, j’utilise la population finale pour pondérer les observations
+après transformation dans la fonction
+[`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md).
 
 ``` r
 # Change la géographie et ajoute les informations de la table de passage

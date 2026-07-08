@@ -34,10 +34,12 @@ Colonnes de la data frame générée par la fonction `cog_transition()` :
 - `COM_FIN` : Code commune final
 
 - `POP_INI` : Population initiale, pouvant servir de pondération pour la
-  fonction [`adapt_to_change()`](adapt_to_change.md)
+  fonction
+  [`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md)
 
 - `POP_FIN` : Population finale, pouvant servir de pondération pour la
-  fonction [`adapt_to_change()`](adapt_to_change.md)
+  fonction
+  [`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md)
 
 - `NB_COM_INI` : Nombre de communes initial
 

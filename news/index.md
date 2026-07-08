@@ -30,9 +30,11 @@
 
 *Décembre 2024*
 
-- Fonction [`cog_events()`](../reference/cog_events.md) : renvoie une
-  data frame avec les évenements ayant eu lieu depuis 2008 pour un code
-  géographique donné : fusions, scissions ou changement de code.
+- Fonction
+  [`cog_events()`](https://inseefrlab.github.io/gescodgeo/reference/cog_events.md)
+  : renvoie une data frame avec les évenements ayant eu lieu depuis 2008
+  pour un code géographique donné : fusions, scissions ou changement de
+  code.
 
 ## gescodgeo 2024.1
 
@@ -42,15 +44,15 @@
   partir de la population légale pour l’année 2024.
 - Suppression des fonctions obsolètes depuis la version 3.0 :
   - `change_annee_com()` remplacée par
-    [`change_cog()`](../reference/change_cog.md),
+    [`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md),
   - `recalcule()` remplacée par
-    [`adapt_to_change()`](../reference/adapt_to_change.md),
+    [`adapt_to_change()`](https://inseefrlab.github.io/gescodgeo/reference/adapt_to_change.md),
   - `verifie_cog()` remplacée par
-    [`check_cog()`](../reference/check_cog.md),
+    [`check_cog()`](https://inseefrlab.github.io/gescodgeo/reference/check_cog.md),
   - `table_passage()` remplacée par
-    [`cog_transition()`](../reference/cog_transition.md),
+    [`cog_transition()`](https://inseefrlab.github.io/gescodgeo/reference/cog_transition.md),
   - `hors_mayotte()` remplacée par
-    [`filter_mayotte()`](../reference/filter_mayotte.md).
+    [`filter_mayotte()`](https://inseefrlab.github.io/gescodgeo/reference/filter_mayotte.md).
 - Suppression des bases qui ne servaient que pour des exemples :
   - `dordogne_2020`,
   - `dordogne_modtrans_2020`,
@@ -65,6 +67,7 @@
   la population légale 2023, car la population légale 2024 n’est pas
   encore disponible.
 - Modification de la fonction
-  [`change_cog()`](../reference/change_cog.md) : argument `split_ratio`
-  pour ajouter une clé de répartition qui peut être utilisée pour
-  répartir des effectifs quand des communes sont scindées.
+  [`change_cog()`](https://inseefrlab.github.io/gescodgeo/reference/change_cog.md)
+  : argument `split_ratio` pour ajouter une clé de répartition qui peut
+  être utilisée pour répartir des effectifs quand des communes sont
+  scindées.
